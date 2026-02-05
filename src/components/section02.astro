@@ -179,7 +179,7 @@ const { id } = Astro.props; // 必须有这一行来接收 index 传过来的 id
                 color-mix(in oklab, var(--color-blue) 100%, #000000 25%),
                 color-mix(in oklab, var(--color-blue) 0%, #262626 5%)
             ),
-            url("imgs/portrait-bg.jpg");
+            url("/imgs/portrait-bg.jpg");
         background-size: cover;
     }
     .left-container {
@@ -190,7 +190,7 @@ const { id } = Astro.props; // 必须有这一行来接收 index 传过来的 id
     }
     .portrait {
         margin: var(--space-24);
-        background: url("imgs/portrait.jpg");
+        background: url("/imgs/portrait.jpg");
         background-size: cover;
         aspect-ratio: 3/4;
     }
@@ -260,11 +260,11 @@ const { id } = Astro.props; // 必须有这一行来接收 index 传过来的 id
         border-width: 8px;
     }
     .xut {
-        background: url("imgs/logo/xut-logo.png") var(--space-12) center / var(--space-64) var(--space-64)
+        background: url("/imgs/logo/xut-logo.png") var(--space-12) center / var(--space-64) var(--space-64)
             no-repeat;
     }
     .xfa {
-        background: url("imgs/logo/xfa-logo.png") var(--space-12) center / var(--space-64) var(--space-64)
+        background: url("/imgs/logo/xfa-logo.png") var(--space-12) center / var(--space-64) var(--space-64)
             no-repeat;
     }
 
