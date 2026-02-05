@@ -1,0 +1,461 @@
+---
+// TableOfContents.astro
+
+// 1. 定义数据
+const sections = [
+  { id: "sect-1", label: "封面", isGroupStart: true },
+  { id: "sect-2", label: "简介", isGroupStart: true },
+  { id: "sect-3", label: "智慧校园项目", isGroupStart: true },
+  { id: "sect-4", label: "工作内容" },
+  { id: "sect-5", label: "产品设计矩阵" },
+  { id: "sect-6", label: "督导巡课管理系统" },
+  { id: "sect-7", label: "在线教学系统" },
+  { id: "sect-8", label: "POA-EM项目", isGroupStart: true },
+  { id: "sect-9", label: "工作内容" },
+  { id: "sect-10", label: "核心场景展示" },
+  { id: "sect-11", label: "EBO项目", isGroupStart: true },
+  { id: "sect-12", label: "工作内容" },
+  { id: "sect-13", label: "设计案例展示" },
+  { id: "sect-14", label: "技术拓展", isGroupStart: true },
+  { id: "sect-15", label: "移动端设计", isGroupStart: true },
+  { id: "sect-16", label: "绘画作品", isGroupStart: true },
+  { id: "sect-17", label: "数字绘画" },
+  { id: "sect-18", label: "传统绘画" },
+  { id: "sect-19", label: "传统绘画2" },
+];
+
+// 2. 提取移动端分组数据
+const mobileGroups = sections.filter((s) => s.isGroupStart);
+---
+
+<!-- 顶部进度条 (通用) -->
+<div class="progress-bar"></div>
+
+<!-- =========================
+     桌面端：右侧悬浮圆点导航 
+     ========================= -->
+<nav class="toc-nav desktop-only">
+  <ul class="toc-list">
+    {
+      sections.map((section) => (
+        <li style={section.isGroupStart ? "margin-top: 1.5rem;" : ""}>
+          <a
+            href={`#${section.id}`}
+            class:list={[
+              "toc-link",
+              { "is-group-start": section.isGroupStart },
+            ]}
+            aria-label={section.label}
+          >
+            <span class="dot" />
+            <span class="label">{section.label}</span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</nav>
+
+<!-- =========================
+     移动端：底部悬浮胶囊导航 
+     ========================= -->
+<nav class="mobile-nav mobile-only">
+  <div class="capsule">
+    <!-- 新增：滑动的背景块 -->
+    <div class="active-slider"></div>
+    {
+      mobileGroups.map((group) => (
+        <a href={`#${group.id}`} class="mobile-link" data-id={group.id}>
+          <span>{group.label}</span>
+        </a>
+      ))
+    }
+  </div>
+</nav>
+
+<style>
+  /* --- 顶部进度条 --- */
+  .progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 4px;
+    background: linear-gradient(to right, #0099ff, var(--color-green, #3dcd58));
+    width: 0%;
+    z-index: 9999;
+    transition: width 0.1s;
+  }
+
+  /* =========================
+     响应式切换逻辑
+     ========================= */
+  .desktop-only {
+    display: none;
+  }
+  .mobile-only {
+    display: block;
+  }
+
+  @media (min-width: 768px) {
+    .desktop-only {
+      display: block;
+    }
+    .mobile-only {
+      display: none;
+    }
+  }
+
+  /* =========================
+     桌面端样式 (TOC)
+     ========================= */
+  .toc-nav {
+    position: fixed;
+    right: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 100;
+  }
+  .toc-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4, 4px);
+    padding: 0;
+    margin: 0;
+  }
+  .toc-link {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    text-decoration: none;
+    height: var(--space-16, 16px);
+    cursor: pointer;
+  }
+  /* 圆点 */
+  .dot {
+    width: 6px;
+    height: 6px;
+    background-color: color-mix(
+      in oklab,
+      var(--color-blk, #000) 8%,
+      var(--color-wh, #fff) 26%
+    );
+    border-radius: 50%;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    z-index: 2;
+  }
+  /* 分组起始点更大 */
+  .toc-link.is-group-start .dot {
+    left: 2px;
+    width: 10px;
+    height: 10px;
+    background-color: color-mix(
+      in oklab,
+      var(--color-blk, #000) 15%,
+      var(--color-wh, #fff) 45%
+    );
+  }
+  /* 悬停文字 */
+  .label {
+    position: absolute;
+    right: 24px;
+    background-color: var(--color-gy1, #333);
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    white-space: nowrap;
+    opacity: 0;
+    transform: translateX(12px);
+    transition: all 0.3s ease;
+    pointer-events: none;
+  }
+  /* 交互状态 */
+  .toc-link:hover .dot {
+    transform: scale(1.5);
+  }
+  .toc-link:hover .label {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  /* 激活状态 */
+  .toc-link.active .dot {
+    left: 2px;
+    width: 10px;
+    height: 10px;
+    background-color: var(--color-green, #3dcd58);
+    box-shadow: 0 0 12px
+      color-mix(in oklab, var(--color-green, #3dcd58) 100%, transparent);
+  }
+  .toc-link.is-group-start.active .dot {
+    left: 4px;
+    width: 14px;
+    height: 14px;
+  }
+
+  /* =========================
+     移动端样式 (Capsule)
+     ========================= */
+  .mobile-nav {
+    position: fixed;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+    width: max-content;
+    max-width: calc(100% - 40px);
+  }
+  .capsule {
+    position: relative; /* 关键：为滑块提供定位基准 */
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 8px;
+    /* 毛玻璃背景 */
+    background: var(--color-wh1); 
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid var(--color-wh3);
+    border-radius: 50px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+    overflow-x: auto; /* 允许横向滚动如果内容太多 */
+    scrollbar-width: none; /* 隐藏滚动条 */
+  }
+  .capsule::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* --- 新增：滑动背景块样式 --- */
+  .active-slider {
+    position: absolute;
+    top: 6px; /* 对应 .capsule 的 padding */
+    left: 0;
+    height: calc(100% - 12px); /* 高度减去上下 padding */
+    background-color: var(--color-gy5);
+    border-radius: 20px;
+    /* border: 0.75px solid var(--color-wh3); */
+    z-index: 0; /* 在文字下面 */
+    pointer-events: none; /* 不干扰点击 */
+
+    /* 关键动画属性 */
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* 丝滑的贝塞尔曲线 */
+    width: 0; /* 初始宽度，JS 会修改 */
+    opacity: 0; /* 初始隐藏，激活后显示 */
+  }
+
+  .mobile-link {
+    position: relative;
+    z-index: 1; /* 确保文字在滑块上面 */
+    text-decoration: none;
+    color: var(--color-gy1);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 1rem;
+    font-weight: 400;
+    white-space: nowrap;
+    transition: color 0.2s ease;
+    /* 移除背景颜色过渡，因为背景现在是独立的滑块 */
+  }
+  .mobile-link:active {
+    transform: scale(0.95);
+  }
+
+  /* 激活状态只改变文字颜色 */
+  .mobile-link.active {
+    color: var(--color-blue);
+    font-weight: 800;
+    /* 移除 background-color 和 box-shadow */
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    // 1. 明确 NodeList 类型，并在后续转换为 Array 以便操作
+    const desktopLinks = Array.from(document.querySelectorAll(".toc-link")) as HTMLElement[];
+    const mobileLinks = Array.from(document.querySelectorAll(".mobile-link")) as HTMLElement[];
+    
+    // 明确断言这些特定元素是 HTMLElement (为了访问 style, offsetLeft 等)
+    const slider = document.querySelector(".active-slider") as HTMLElement | null;
+    const capsule = document.querySelector(".capsule") as HTMLElement | null;
+    const allLinks = [...desktopLinks, ...mobileLinks];
+
+    // --- 状态锁 ---
+    let isClickScrolling = false;
+    // 2. 修复：明确 timeout 类型 (浏览器环境下是 number)
+    let scrollTimeout: number | undefined;
+
+    // 3. 修复：给参数 activeLink 指定类型 HTMLElement
+    function moveSlider(activeLink: HTMLElement | null) {
+      if (!activeLink || !slider || !capsule) return;
+      const left = activeLink.offsetLeft;
+      const width = activeLink.offsetWidth;
+      slider.style.transform = `translateX(${left}px)`;
+      slider.style.width = `${width}px`;
+      slider.style.opacity = "1";
+    }
+
+    // 4. 修复：给参数 activeLink 指定类型 HTMLElement
+    function centerActiveItem(activeLink: HTMLElement | null) {
+      if (!activeLink || !capsule) return;
+      const scrollLeft =
+        activeLink.offsetLeft -
+        capsule.clientWidth / 2 +
+        activeLink.offsetWidth / 2;
+      capsule.scrollTo({ left: scrollLeft, behavior: "smooth" });
+    }
+
+    // 3. 点击跳转逻辑
+    allLinks.forEach((link) => {
+      link.addEventListener("click", (e) => {
+        e.preventDefault();
+        const href = link.getAttribute("href");
+        if (!href) return;
+
+        // 【步骤 A】：上锁
+        isClickScrolling = true;
+
+        // 【步骤 B】：立即手动更新 UI
+        if (link.classList.contains("mobile-link")) {
+          // --- 移动端逻辑 ---
+          mobileLinks.forEach((l) => l.classList.remove("active"));
+          link.classList.add("active");
+          // 这里的 link 已经是 HTMLElement 了 (见开头 Array.from)
+          moveSlider(link);
+          centerActiveItem(link);
+        } else {
+          // --- 桌面端逻辑 ---
+          desktopLinks.forEach((l) => l.classList.remove("active"));
+          link.classList.add("active");
+        }
+
+        // 页面平滑滚动
+        const targetId = href.replace("#", "");
+        const target = document.getElementById(targetId);
+        if (target) {
+          target.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      });
+    });
+
+    // 4. 监听滚动结束
+    window.addEventListener(
+      "scroll",
+      () => {
+        // 进度条逻辑
+        const progressBar = document.querySelector(".progress-bar") as HTMLElement | null;
+        if (progressBar) {
+          const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+          const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+          const scrolled = height > 0 ? (scrollTop / height) * 100 : 0;
+          progressBar.style.width = scrolled + "%";
+        }
+
+        // 【步骤 C】：防抖解锁
+        if (isClickScrolling) {
+          clearTimeout(scrollTimeout);
+          scrollTimeout = window.setTimeout(() => {
+            isClickScrolling = false;
+          }, 100);
+        }
+      },
+      { passive: true },
+    );
+
+    // 5. 滚动监听
+    const sections = document.querySelectorAll("section[id], div[id]");
+
+    // 5. 修复：定义 Map 对象的类型，避免 implicitly has an 'any' type
+    const sectionToGroupMap: Record<string, string | null> = {};
+    let currentGroupId: string | null = null;
+    
+    // 数据定义
+    const sectionsData = [
+      { id: "sect-1", isGroupStart: true },
+      { id: "sect-2", isGroupStart: true },
+      { id: "sect-3", isGroupStart: true },
+      { id: "sect-4" },
+      { id: "sect-5" },
+      { id: "sect-6" },
+      { id: "sect-7" },
+      { id: "sect-8", isGroupStart: true },
+      { id: "sect-9" },
+      { id: "sect-10" },
+      { id: "sect-11", isGroupStart: true },
+      { id: "sect-12" },
+      { id: "sect-13" },
+      { id: "sect-14", isGroupStart: true },
+      { id: "sect-15", isGroupStart: true },
+      { id: "sect-16", isGroupStart: true },
+      { id: "sect-17" },
+      { id: "sect-18" },
+      { id: "sect-19" },
+    ];
+
+    sectionsData.forEach((s) => {
+      if (s.isGroupStart) currentGroupId = s.id;
+      // 确保 id 存在
+      if (s.id) sectionToGroupMap[s.id] = currentGroupId;
+    });
+
+    const observerOptions = {
+      rootMargin: "-20% 0px -60% 0px",
+      threshold: 0,
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      if (isClickScrolling) return;
+
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const id = entry.target.getAttribute("id");
+          if (!id) return;
+
+          // A. 桌面端
+          desktopLinks.forEach((l) => l.classList.remove("active"));
+          // 6. 修复：增加类型断言
+          const activeDesktop = document.querySelector(`.toc-link[href="#${id}"]`) as HTMLElement | null;
+          if (activeDesktop) activeDesktop.classList.add("active");
+
+          // B. 移动端
+          const groupId = sectionToGroupMap[id];
+          if (groupId) {
+            // 7. 修复：增加类型断言
+            const activeMobile = document.querySelector(`.mobile-link[href="#${groupId}"]`) as HTMLElement | null;
+
+            if (activeMobile && !activeMobile.classList.contains("active")) {
+              mobileLinks.forEach((l) => l.classList.remove("active"));
+              activeMobile.classList.add("active");
+
+              moveSlider(activeMobile);
+              centerActiveItem(activeMobile);
+            }
+          }
+        }
+      });
+    }, observerOptions);
+
+    sections.forEach((s) => observer.observe(s));
+
+    // Resize 处理
+    window.addEventListener("resize", () => {
+      // 8. 修复：querySelector 返回 Element，断言为 HTMLElement
+      const activeMobile = document.querySelector(".mobile-link.active") as HTMLElement | null;
+      if (activeMobile) {
+        moveSlider(activeMobile);
+        centerActiveItem(activeMobile);
+      }
+    });
+
+    // 初始化
+    setTimeout(() => {
+      const activeMobile = document.querySelector(".mobile-link.active") as HTMLElement | null;
+      if (activeMobile) {
+        moveSlider(activeMobile);
+        centerActiveItem(activeMobile);
+      }
+    }, 100);
+  });
+</script>

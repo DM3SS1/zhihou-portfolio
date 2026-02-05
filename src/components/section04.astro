@@ -1,0 +1,230 @@
+---
+import { Image } from 'astro:assets';
+
+// 导入本地图片
+import img1 from '/src/assets/imgs/AVC/web_specification.png';
+import img2 from '/src/assets/imgs/AVC/mobile_specification.png';
+import img3 from '/src/assets/imgs/AVC/tokens.png';
+
+const { id } = Astro.props;  // 必须有这一行来接收 index 传过来的 id
+console.log
+---
+
+<!-- 添加 project-section 类以便 flex 布局生效 -->
+<section class="project-section" id={id}>
+    
+    <!-- 左侧：文本信息 -->
+    <div class="left">
+        
+    <div class="title font-title2 color-blk">
+        <span class="title-symbol font-subtext text-loose uppercase text-bold color-blue">
+            FROM LOGIC TO PIXELS
+        </span>
+        从规范定义到工程还原
+        <span class="title-description font-text color-gy2">
+            / 覆盖智慧校园全业务链条
+        </span>
+    </div>
+        
+        <div class="page-item">
+            <div class="item-header font-subtext text-loose text-bold color-gy3">
+                <span class="status-dot"></span>STANDARD DEFINITION
+            </div>
+            <div class="item-content-wrapper">
+                <div class="item-title font-title-caption text-bold color-blk">制定全局设计规范 </div>
+                <div class="item-content font-text color-gy2">
+                    深入调研 Ant Design、Arco Design 等业界领先设计体系，结合艾威康品牌调性，提炼出涵盖<span class="color-gy1 text-bold">色彩、布局、字体、图标</span>及导航、卡片等<span class="color-gy1 text-bold">核心组件</span>的 UI 规范文档。为设计与开发团队提供清晰、一致的参考依据，大幅提升产品一致性。
+                </div>
+            </div>
+        </div>
+
+        <div class="page-item">
+            <div class="item-header font-subtext text-loose text-bold color-gy3">
+                <span class="status-dot"></span>ENGINEERING COLLABORATION
+            </div>
+            <div class="item-content-wrapper">
+                <div class="item-title font-title-caption text-bold color-blk">前端深度协作与验证 </div>
+                <div class="item-content font-text color-gy2">
+                    主导搭建基于 Vue 3 的 UI 框架原型，攻克技术难点并定义团队级样式变量（Design Tokens）。通过详细的 UI 走查与代码层面的优化建议，确保设计方案从 Mastergo 到线上代码的 <span class="color-blue text-bold">像素级还原。</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 右侧：图片 Grid -->
+    <div class="right">
+        <!-- 
+            大图 (gallery-large):
+            PC (1200px+): 占容器的 100% (容器占屏幕 8/12) -> 约 66vw
+            Tablet (1024px以下): 容器变 100% -> 100vw
+        -->
+        <Image 
+            src={img3} 
+            alt="督导巡课系统预览大图" 
+            class="gallery round-8 ratio-high"
+            widths={[600, 1200, 1600]}
+            sizes="(max-width: 1024px) 100vw, 66vw"
+        />
+        <div class="stack-column">
+             <!-- 
+            小图:
+            PC: 占容器的 50% (容器占屏幕 8/12) -> 约 33vw
+            Mobile (640px以下): 变成单列 -> 100vw
+        -->
+        <Image 
+            src={img1} 
+            alt="督导巡课系统细节 1" 
+            class="gallery round-8"
+            widths={[400, 800]}
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+        />
+        <Image 
+            src={img2} 
+            alt="督导巡课系统细节 2" 
+            class="gallery round-8"
+            widths={[400, 800]}
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+        />
+        </div>
+       
+    </div>
+
+</section>
+
+<style>
+    /* 
+       父容器设置 
+       假设你的 global.css 里没有给 section 默认 flex，这里补上 
+    */
+    .project-section {
+        display: flex;
+        gap: var(--space-64); /* 对应 calc 中的 64px 间隙 */
+        width: 100%;
+        margin-bottom: var(--space-80); /* 模块间距 */
+    }
+
+    /* === 左侧布局 === */
+    .left {
+        /* 4/12 栏宽 */
+        flex: 0 0 calc((100% - var(--space-64)) / 12 * 6);
+        min-width: 0;
+    }
+
+    /* === 标题样式 === */
+    .title {
+        margin-bottom: 7vh;
+        position: relative;
+    }
+    .title-symbol {
+        display: block;
+        margin-bottom: var(--space-8);
+    }
+    .title-description {
+        /* 原代码 display: none，如果不需要显示建议直接移除 HTML，或者保留如下 */
+        display: none; 
+        margin-left: var(--space-16);
+        font-weight: 400;
+        opacity: 0.8;
+    }
+
+    /* 优化：提取小圆点样式，移除内联 style */
+    .item-header {
+        display: flex;
+        gap: var(--space-8);
+        align-items: center;
+    }
+    .status-dot {
+        width: 6px;
+        height: 6px;
+        background-color: var(--color-blue);
+        border-radius: 50%;
+        flex-shrink: 0; /* 防止被挤压 */
+    }
+
+    .item-content-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-16);
+        border-left: 1px solid var(--color-gy5);
+        padding-left: var(--space-12);
+        /* 这里的 margin-top 应该由 .page-item 控制，或者保留 margin-bottom */
+        margin-top: var(--space-8); 
+        margin-bottom: var(--space-48);
+    }
+
+    .item-content {
+        /* 优化换行逻辑：优先在单词间换行，必要时打断单词 */
+        overflow-wrap: anywhere; 
+        line-height: 1.6; /* 增加可读性 */
+    }
+
+    .tags { display: flex; gap: var(--space-8); flex-wrap: wrap; }
+    .tag {
+        background-color: var(--color-gy6);
+        border: 1px solid var(--color-gy5);
+        padding: var(--space-4) var(--space-12);
+        font-weight: 800;
+        letter-spacing: 0.125em;
+    }
+
+    /* === 右侧图片 Grid === */
+    .right {
+        /* 8/12 栏宽 */
+        flex: 0 0 calc((100% - var(--space-64)) / 12 * 6);
+        
+        display: grid;
+        grid-template-columns: 1fr 3fr; /* 简单的二等分 */
+        gap: var(--space-16);
+        align-content: start;
+    }
+        .stack-column {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-16);
+        justify-content: space-between;
+        height: 100%; /* 确保容器高度填满 grid 单元 */
+    }
+
+    .gallery {
+        width: 100%;
+        height: 100%; /* 配合 object-fit 撑满格子 */
+        aspect-ratio: 16 / 9;
+        object-fit: cover; /* 关键：防止图片拉伸 */
+        box-shadow: var(--shadow-m);
+        transition: var(--transition);
+        /* 移除 flex 居中属性，因为 Image 组件生成的是 img 标签，不是容器 */
+        display: block; 
+    }
+
+    .gallery:hover {
+        transform: scale(1.02) translateY(-0.25rem);
+        box-shadow: var(--shadow-l);
+    }
+    .ratio-high {
+        aspect-ratio: 376/1671;
+    }
+
+
+
+    /* === 响应式 === */
+    @media(max-width: 1024px) {
+        .project-section {
+            flex-direction: column; /* 上下排列 */
+            gap: var(--space-40);
+        }
+        .left, .right {
+            flex: 0 0 100%; /* 占满全宽 */
+        }
+    }
+
+    @media(max-width: 640px) {
+        .right {
+            /* 移动端变成单列 */
+            /* grid-template-columns: 1fr;  */
+        }
+        /* 
+           在单列模式下，gallery-large 的 grid-column: 1/-1 依然有效，
+           其他图片自然也是占满一列，所以不需要额外写 grid-column
+        */
+    }
+</style>

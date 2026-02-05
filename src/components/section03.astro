@@ -1,0 +1,124 @@
+---
+import { Image } from 'astro:assets';
+// 1. 导入图片 (替换原有的字符串路径)
+import coverImg from '/src/assets/imgs/covers/AVC_cover.png';
+const { id } = Astro.props; // 必须有这一行来接收 index 传过来的 id
+---
+
+<section class="aligh-center bg-pattern" id={id}>
+    <div class="left">
+        <!-- <div class="tags">
+            <span class="font-subtext color-blue uppercase round-full"
+                >ECOSTRUXURE™</span
+            ><span class="font-subtext color-blue uppercase round-full"
+                >ISOMETRIC SYSTEM</span
+            ><span class="font-subtext color-blue uppercase round-full"
+                >BUILDING OPERATION</span>
+        </div> -->
+        <img class="company-logo" src="imgs/logo/AVC-logo.svg"/>
+        <div class="project-info font-exbt2">
+            智慧校园 <br />
+            <span class="color-blue">系列产品.</span>
+        </div>
+
+        <div class="project-description font-title-caption color-gy2">
+            通过制定统一的<span class="color-blk text-bold">设计规范</span
+            >与构建高辨识度的<span class="color-blk text-bold">组件库</span
+            >，打造具有一致视觉体系的<span class="color-blk text-bold"
+                >产品家族形象</span
+            >，构建清晰的品牌“脸谱”。涵盖 AVCare 智慧环境管控、知识图谱、AI
+            教学评测等多个核心产品，确保设计在多个平台和产品之间的统一性和可扩展性。
+        </div>
+        <div class="project-data-wrapper">
+            <div class="project-data font-title2 color-blue">
+                15+<span class="font-subtext color-gy2">统一脸谱系列产品</span>
+            </div>
+            <div class="project-data font-title2 color-blue">
+                从0到1<span class="font-subtext color-gy2"
+                    >构建web及移动端设计规范</span
+                >
+            </div>
+        </div>
+    </div>
+    <div class="right">
+        <Image 
+                src={coverImg} 
+                alt="POA-EM Interface Cover" 
+                class="main-image round-16"
+                widths={[600, 1200]}
+            />
+    </div>
+</section>
+<style>
+    .left {
+        flex: 0 0 calc((100% - var(--space-64)) / 12 * 5);
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-40);
+          /* 关键：告诉子元素不要拉伸，要依据自身大小对齐 */
+  align-items: flex-start; /* 或者 center */
+    }
+
+    .tags {
+        display: flex;
+        gap: var(--space-8);
+        flex-wrap: wrap;
+        margin-bottom: calc(var(--space-24) * -1);
+    }
+
+    .tags > * {
+        background-color: color-mix(
+            in oklab,
+            var(--color-blue) 15%,
+            transparent
+        );
+        /* border: 1px solid color-mix(in oklab, var(--color-blue) 40%, transparent); */
+        padding: var(--space-8) var(--space-12);
+        font-weight: 600;
+        letter-spacing: 0.125em;
+    }
+
+    .project-description {
+        padding-bottom: var(--space-40);
+        border-bottom: 1px solid var(--color-gy5);
+    }
+
+    .project-data-wrapper {
+        display: flex;
+        align-items: center;
+        gap: var(--space-48);
+    }
+
+    .project-data {
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        gap: var(--space-4);
+    }
+
+    .right {
+        flex: 0 0 calc((100% - var(--space-64)) / 12 * 7);
+    }
+
+    .right img {
+        width: 100%;
+        margin-bottom: -10vw;
+        transform: scale(1.1);
+        height: auto;
+    }
+
+    @media (max-width: 1024px) {
+        .left,
+        .right {
+            flex: 0 0 100%;
+        }
+        .right {
+            margin-top: 7%;
+            order: -1; /* 图片在移动端显示在上面? 如果想保持在下面则去掉此行 */}
+        .right img {
+            transform: scale(1);
+        margin-bottom: -25vw;
+        }
+    }
+</style>

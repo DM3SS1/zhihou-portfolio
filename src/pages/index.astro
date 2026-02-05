@@ -1,0 +1,37 @@
+---
+import "../styles/global.css"
+import TableOfContents from "../components/parts/TableOfContents.astro"
+
+// 1. 导入组件
+const components = import.meta.glob('../components/section*.astro', { eager: true });
+
+// 2. 转换并排序
+const sections = Object.entries(components)
+  .sort(([pathA], [pathB]) => {
+      // 修复点：在这里加上 : string
+      const getNum = (str: string) => parseInt(str.match(/section(\d+)\.astro$/i)?.[1] || '0', 10);
+      return getNum(pathA) - getNum(pathB);
+  })
+  // 3. 提取模块，并断言类型以避免后续报错
+  // 这里的 any 是允许的，因为我们知道 Astro 组件导出包含 default
+  .map(([_path, module]) => module as { default: any });
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" href="/favicon.ico" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>Zhi Hou | PORTFOLIO</title>
+	</head>
+	<body>
+		<TableOfContents/>
+    {sections.map((Section, index) => {
+        // 因为你的 ID 是从 sect-1 开始的，所以索引要 +1
+        const sectionId = `sect-${index + 1}`; 
+        return <Section.default id={sectionId} />;
+    })}
+	</body>
+</html>

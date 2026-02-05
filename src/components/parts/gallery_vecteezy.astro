@@ -1,0 +1,590 @@
+---
+// Gallery.astro
+import { Image } from "astro:assets";
+
+interface Props {
+  images: Record<string, any>;
+  rowRatio?: number; // 新增：定义可选的比例参数
+}
+// 设定默认值为 3.5
+const { images, rowRatio = 3.5 } = Astro.props;
+
+
+// 1. 获取所有图片模块
+// images 的结构是: { "path": { default: ImageMetadata } }
+// imageList 的结构是: [ { src: "...", width: 100, ... }, ... ]
+const imageList = Object.values(images).map((img: any) => img.default);
+
+// ❌ 错误来源：下面这行代码必须删除！
+// const rawImages = Object.values(imageList).map((img: any) => img.default);
+
+function processImages(array: any[]) {
+  // 安全检查：如果没图，返回空数组
+  if (!array || array.length === 0) return [];
+
+  const shuffled = [...array];
+
+  // 洗牌算法
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+
+  return shuffled
+    .map((img) => {
+      // 🛡️ 防御性编程：如果这一项是 undefined，说明数据处理错了
+      if (!img) {
+        console.error("发现无效图片数据", img);
+        return null;
+      }
+
+      return {
+        original: img, // 这是一个对象 { src:..., width:..., format:... }
+        hdSrc: img.src, // ✅ 这里现在能正确读取到了
+        ratio: img.width / img.height,
+      };
+    })
+    .filter((item) => item !== null); // 过滤掉出错的项
+}
+
+// ✅ 正确：直接传入 imageList
+const shuffledItems = processImages(imageList);
+
+// 调试输出：在终端看看拿到了多少张图
+console.log(`[Gallery] 成功加载 ${shuffledItems.length} 张图片`);
+---
+
+<section class="gallery-wrapper">
+  <div class="gallery-container" data-row-ratio={rowRatio}>
+    {
+      shuffledItems.map((item: any, index: number) => (
+        <div
+          class="gallery-item"
+          data-index={index}
+          data-src={item.hdSrc}
+          data-aspect-ratio={item.ratio}
+        >
+          <Image
+            src={item.original}
+            height={400}
+            densities={[1.5, 2]}
+            format="webp"
+            quality={80}
+            alt={`Artwork ${index + 1}`}
+            class="gallery-img"
+          />
+          <div class="overlay">
+            <span>⤢</span>
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</section>
+
+<!-- Lightbox -->
+<div id="lightbox" class="lightbox hidden">
+  <button id="close-btn" class="control-btn close">&times;</button>
+  <button id="prev-btn" class="control-btn prev">&#10094;</button>
+  <div id="lightbox-loader" class="loader hidden"></div>
+  <div class="lightbox-content">
+    <img id="lightbox-img" src="" alt="Full screen view" />
+  </div>
+  <button id="next-btn" class="control-btn next">&#10095;</button>
+  <div class="lightbox-counter">
+    <span id="current-index">1</span> / <span id="total-count"
+      >{shuffledItems.length}</span
+    >
+  </div>
+</div>
+
+<style>
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+  .gallery-wrapper {
+    width: 100%;
+    /* max-width: 1800px; */
+    margin: 0 auto;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  /* Gallery Layout */
+  .gallery-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    width: 100%;
+    /* ✅ 新增：强制行从顶部开始堆叠，不要在垂直方向分散对齐 */
+    align-content: flex-start;
+
+    /* ✅ 确保：高度由内容撑开，而不是被父级拉伸 */
+    height: auto;
+  }
+  .gallery-container.loaded {
+    opacity: 1;
+  }
+  .gallery-item {
+    position: relative;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+    /* background-color: #eee; */
+    border-radius: 8px;
+    /* 原来是 height: 240px; 可以改成一个较小的手机端友好值，
+     或者使用 clamp() 配合视口单位来实现纯 CSS 的近似效果 */
+    /* height: 240px; */
+    /* 如果希望 CSS 也能大概自适应（JS加载前）可以这样写： */
+    height: clamp(160px, 25vw, 400px);
+    flex-grow: 1;
+  }
+  .gallery-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+    transition: transform 0.3s ease;
+  }
+  .gallery-item:hover .gallery-img {
+    transform: scale(1.05);
+  }
+  .gallery-item .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--color-gy4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .gallery-item .overlay span {
+    color: var(--color-wh);
+    font-size: 1.5rem;
+    text-shadow: var(--shadow-s);
+  }
+  .gallery-item:hover .overlay {
+    opacity: 1;
+  }
+
+  /* Lightbox */
+  .lightbox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--color-gy2);
+    z-index: 2000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+    backdrop-filter: blur(16px);
+    overflow: hidden;
+  }
+  .lightbox.hidden {
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+  }
+  .lightbox-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  /* --- 修复模糊的核心样式 --- */
+  .lightbox-content img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    cursor: grab;
+    transform-origin: center center;
+    /* 删除了 will-change: transform */
+    box-shadow: 0 0 48px rgba(0, 0, 0, 0.4);
+    /* 优化渲染 */
+    image-rendering: -webkit-optimize-contrast;
+  }
+
+  .lightbox-content img.loaded {
+    opacity: 1;
+  }
+  .lightbox-content img.dragging {
+    cursor: grabbing;
+  }
+
+  /* Loader & Controls */
+  .loader {
+    position: absolute;
+    width: 48px;
+    height: 48px;
+    border: 5px solid var(--color-wh3);
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+    z-index: 2002;
+  }
+  .loader.hidden {
+    display: none;
+  }
+  @keyframes rotation {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  .control-btn {
+    position: absolute;
+    background: none;
+    border: none;
+    color: var(--color-wh2);
+    font-size: 2.375rem;
+    cursor: pointer;
+    /* padding: 20px; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    user-select: none;
+    transition: all 0.2s;
+    z-index: 2001;
+    border-radius: 1000px;
+  }
+  .control-btn:hover {
+    color: var(--color-wh);
+    transform: scale(1.1);
+    background-color: var(--color-gy2);
+  }
+  .close {
+    top: var(--space-16);
+    right: var(--space-16);
+    font-size: 3.5rem;
+    line-height: 0.5;
+  }
+  .prev {
+    left: var(--space-16);
+  }
+  .next {
+    right: var(--space-16);
+  }
+  .lightbox-counter {
+    position: absolute;
+    bottom: var(--space-40);
+    color: var(--color-wh1);
+    /* font-family: sans-serif; */
+    letter-spacing: 1.1;
+    font-size: 1rem;
+    pointer-events: none;
+    padding: var(--space-4) var(--space-12);
+    background-color: var(--color-gy3);
+    border-radius: 1000px;
+  }
+</style>
+
+<script>
+  // 定义排版更新对象的接口
+  interface LayoutUpdate {
+    el: HTMLElement;
+    height: string;
+    width: string;
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const containers = document.querySelectorAll(".gallery-container");
+
+    function initJustifiedLayout(container: HTMLElement) {
+      // if (!(container instanceof HTMLElement)) return;
+
+      function layout() {
+        // 显式断言为 HTMLElement 以访问 dataset 和 style
+        const items = Array.from(container.children) as HTMLElement[];
+        if (items.length === 0) return;
+
+        const containerWidth =
+          Math.floor(container.getBoundingClientRect().width) - 1;
+        const gap = 12;
+        // containerWidth / 3.5: 这是比例系数。
+        // 这个数字越小（比如 2），目标行高就越高，每行显示的图片就越少（图片更大）。
+        // 这个数字越大（比如 5），目标行高就越矮，每行显示的图片就越多（图片更密集）。
+        // 3.5 是一个经验值，能保证在大多数屏幕上每行大约显示 3 到 4 张横图。
+        // Math.max(160, ...): 移动端保护。
+        // 手机屏幕很窄（约 350px-400px）。如果纯按比例除以 3.5，行高只有 100px 左右，手指很难点击，看不清细节。所以强制要在手机上至少有 160px 高。
+        // Math.min(450, ...): 大屏保护。
+        // 如果是 4K 屏幕，如果不限制上限，行高可能会变成 1000px，一张图占满一屏幕，体验不好。
+        // 想要不同的效果？
+        // 如果想要手机上每行显示 2 张图：把最小限制改小，比如 Math.max(120, ...)。
+        // 如果想要“照片墙”更密集的感觉：把除数改大，比如 containerWidth / 5。
+        // const targetHeight = Math.max(160, Math.min(450, containerWidth / 3.5));
+
+        // --- 修改开始：从 dataset 读取比例 ---
+        // 如果读取不到，默认设为 3.5
+        const rowRatio = parseFloat(container.dataset.rowRatio || "3.5");
+        
+        // 使用 rowRatio 代替写死的 3.5
+        const targetHeight = Math.max(160, Math.min(450, containerWidth / rowRatio));
+        // --- 修改结束 ---
+
+        const ratios = items.map((item) =>
+          parseFloat(item.dataset.aspectRatio || "1"),
+        );
+
+        let currentRowStart = 0;
+        let currentWidth = 0;
+        const updates: LayoutUpdate[] = []; // 明确数组类型
+
+        for (let i = 0; i < items.length; i++) {
+          const itemWidth = targetHeight * ratios[i];
+          currentWidth += itemWidth;
+          const count = i - currentRowStart + 1;
+          const gapsWidth = (count - 1) * gap;
+
+          if (currentWidth + gapsWidth >= containerWidth) {
+            let totalRatio = 0;
+            for (let j = currentRowStart; j <= i; j++) {
+              totalRatio += ratios[j];
+            }
+            const finalHeight = (containerWidth - gapsWidth) / totalRatio;
+
+            for (let j = currentRowStart; j <= i; j++) {
+              updates.push({
+                el: items[j],
+                height: `${finalHeight}px`,
+                width: `${finalHeight * ratios[j]}px`,
+              });
+            }
+            currentRowStart = i + 1;
+            currentWidth = 0;
+          }
+        }
+
+        if (currentRowStart < items.length) {
+          for (let j = currentRowStart; j < items.length; j++) {
+            updates.push({
+              el: items[j],
+              height: `${targetHeight}px`,
+              width: `${targetHeight * ratios[j]}px`,
+            });
+          }
+        }
+
+        requestAnimationFrame(() => {
+          updates.forEach((u) => {
+            u.el.style.height = u.height;
+            u.el.style.width = u.width;
+            u.el.style.flexGrow = "0";
+            u.el.style.marginRight = "0";
+            u.el.style.marginBottom = "0";
+          });
+          container.classList.add("loaded");
+        });
+      }
+
+      const resizeObserver = new ResizeObserver((entries) => {
+        window.requestAnimationFrame(() => {
+          if (!Array.isArray(entries) || !entries.length) return;
+          layout();
+        });
+      });
+
+      resizeObserver.observe(container);
+      layout();
+    }
+
+   containers.forEach((container) => {
+  if (container instanceof HTMLElement) {
+    initJustifiedLayout(container);
+  }
+});
+
+    // --- Lightbox Logic ---
+    const lb = document.getElementById("lightbox");
+    // 使用类型断言解决 "possibly null"
+    const lbImg = document.getElementById(
+      "lightbox-img",
+    ) as HTMLImageElement | null;
+    const loader = document.getElementById("lightbox-loader");
+    const idxEl = document.getElementById("current-index");
+    const totalCountEl = document.getElementById("total-count");
+
+    if (!lb || !lbImg || !loader) return;
+
+    const allGalleryItems = document.querySelectorAll(
+      ".gallery-item",
+    ) as NodeListOf<HTMLElement>;
+
+    if (totalCountEl)
+      totalCountEl.innerText = allGalleryItems.length.toString(); // 修复数字赋值给 string
+
+    const srcList = Array.from(allGalleryItems).map(
+      (item) => item.dataset.src || "",
+    );
+
+    let idx = 0;
+    const total = allGalleryItems.length;
+    let s = 1,
+      px = 0,
+      py = 0,
+      dragging = false,
+      sx = 0,
+      sy = 0;
+
+    function preloadImage(index: number) {
+      // 添加参数类型
+      if (index < 0 || index >= total) return;
+      const img = new Image();
+      img.src = srcList[index];
+    }
+
+    function upTrans() {
+      if (lbImg)
+        lbImg.style.transform = `translate(${px}px, ${py}px) scale(${s})`;
+    }
+
+    function reset() {
+      s = 1;
+      px = 0;
+      py = 0;
+      dragging = false;
+      upTrans();
+    }
+
+    function updateImg() {
+      if (!lbImg) return;
+      lbImg.classList.remove("loaded");
+      loader?.classList.remove("hidden");
+      const newSrc = srcList[idx];
+      const tmp = new Image();
+      tmp.onload = () => {
+        lbImg.src = newSrc;
+        loader?.classList.add("hidden");
+        lbImg.classList.add("loaded");
+        preloadImage((idx + 1) % total);
+        preloadImage((idx - 1 + total) % total);
+      };
+      tmp.src = newSrc;
+      if (idxEl) idxEl.textContent = (idx + 1).toString();
+    }
+
+    function open(i: number) {
+      // 添加参数类型
+      idx = i;
+      reset();
+      updateImg();
+      lb?.classList.remove("hidden");
+      document.body.style.overflow = "hidden";
+    }
+
+    function close() {
+      lb?.classList.add("hidden");
+      document.body.style.overflow = "";
+      setTimeout(() => {
+        if (lbImg) lbImg.src = "";
+      }, 200);
+    }
+
+    function next() {
+      idx = (idx + 1) % total;
+      reset();
+      updateImg();
+    }
+    function prev() {
+      idx = (idx - 1 + total) % total;
+      reset();
+      updateImg();
+    }
+
+    lb.addEventListener(
+      "wheel",
+      (e: WheelEvent) => {
+        e.preventDefault();
+        const xs = (e.clientX - window.innerWidth / 2 - px) / s;
+        const ys = (e.clientY - window.innerHeight / 2 - py) / s;
+        let ns = s + -Math.sign(e.deltaY) * 0.15 * s;
+        ns = Math.max(0.5, Math.min(ns, 5));
+        px += e.clientX - window.innerWidth / 2 - px - xs * ns;
+        py += e.clientY - window.innerHeight / 2 - py - ys * ns;
+        s = ns;
+        upTrans();
+      },
+      { passive: false },
+    );
+
+    lbImg.addEventListener("mousedown", (e: MouseEvent) => {
+      e.preventDefault();
+      dragging = true;
+      sx = e.clientX - px;
+      sy = e.clientY - py;
+      lbImg.classList.add("dragging");
+    });
+
+    window.addEventListener("mousemove", (e: MouseEvent) => {
+      if (dragging) {
+        px = e.clientX - sx;
+        py = e.clientY - sy;
+        upTrans();
+      }
+    });
+
+    window.addEventListener("mouseup", () => {
+      dragging = false;
+      lbImg.classList.remove("dragging");
+    });
+
+    allGalleryItems.forEach((it, i) =>
+      it.addEventListener("click", () => open(i)),
+    );
+
+    const closeBtn = document.getElementById("close-btn");
+    const prevBtn = document.getElementById("prev-btn");
+    const nextBtn = document.getElementById("next-btn");
+
+    if (closeBtn) closeBtn.addEventListener("click", close);
+    if (nextBtn)
+      nextBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        next();
+      });
+    if (prevBtn)
+      prevBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        prev();
+      });
+
+    lb.addEventListener("click", (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (
+        s <= 1.1 &&
+        (target === lb || target.classList.contains("lightbox-content"))
+      )
+        close();
+    });
+
+    document.addEventListener("keydown", (e: KeyboardEvent) => {
+      if (lb.classList.contains("hidden")) return;
+      if (e.key === "Escape") close();
+      if (e.key === "ArrowRight") next();
+      if (e.key === "ArrowLeft") prev();
+    });
+  });
+</script>

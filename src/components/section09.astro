@@ -1,0 +1,209 @@
+---
+// 1. 导入本地 GIF 图标
+// 注意：Astro 的 <Image /> 组件对 GIF 动画支持有限，建议对于 GIF 继续使用标准 <img> 标签，但引用路径需通过 import 获取
+import iconDrawing from '/src/assets/imgs/icons/drawing-tools_11256656.gif';
+import iconEdit from '/src/assets/imgs/icons/edit_15557738.gif';
+import iconComputer from '/src/assets/imgs/icons/computer_18670324.gif';
+const { id } = Astro.props; // 必须有这一行来接收 index 传过来的 id
+
+// 2. 定义卡片数据
+// 将颜色、滤镜参数和内容分离，方便维护
+const features = [
+    {
+        title: "Quartz V3 本地化",
+        desc: "平衡施耐德全球统一性与中国用户操作习惯，定制化开发 120+ 基础组件，确保跨平台体验一致。",
+        icon: iconDrawing,
+        // 定义主题色变量 (Green)
+        color: "#3dcd58", 
+        // 定义图标滤镜 (保留原设计的色相旋转逻辑)
+        filter: "hue-rotate(-45deg) saturate(120%)"
+    },
+    {
+        title: "工业图标系统",
+        desc: "针对 2K/4K 工业显示器优化，设计 50+ 高辨识度线性图标，支持在极高密度信息流中快速定位。",
+        icon: iconEdit,
+        // (Blue)
+        color: "#007cc8",
+        filter: "hue-rotate(45deg) saturate(150%)"
+    },
+    {
+        title: "数据可视化",
+        desc: "基于能耗业务逻辑，二次开发 Echarts 组件，兼顾数据表现力与工业互联网的严谨美感。",
+        icon: iconComputer,
+        // (Orange)
+        color: "#ff8f1f",
+        filter: "hue-rotate(-160deg) saturate(120%)"
+    }
+];
+---
+
+<section class="section-vertical" id={id}>
+    <div class="header">
+        <div class="title font-title2">
+            <span class="title-symbol"></span>设计规范与原子构建
+            <span class="title-description font-text color-gy2">
+                不仅是像素的排列，更是可复用、可扩展的逻辑系统
+            </span>
+        </div>
+    </div>
+
+        <div class="grid-wrapper">
+            {features.map((item) => (
+                <div 
+                    class="card" 
+                    style={{
+                        '--accent-color': item.color,
+                        '--icon-filter': item.filter
+                    }}
+                >
+                    <div class="icon-wrapper">
+                        <!-- 使用 import 的 src 属性 -->
+                        <img src={item.icon.src} class="icon" alt={item.title} />
+                    </div>
+                    <div class="text-wrapper">
+                        <div class="card-title">{item.title}</div>
+                        <div class="description">{item.desc}</div>
+                    </div>
+                </div>
+            ))}
+        </div>
+</section>
+
+<style>
+    /* === 头部样式 === */
+    .title { margin-bottom: var(--space-56); }
+    .title-symbol { 
+        display: block; width: 32px; height: 4px; 
+        background: var(--color-green); margin-bottom: var(--space-16); 
+    }
+    .title-description { 
+        margin-top: var(--space-8); display: block; font-weight: 400; 
+    }
+
+    /* === 容器布局 === */
+
+    .grid-wrapper {
+        flex: 1ch;
+        width: 100%;
+        display: grid;
+        justify-content: center;
+        align-items: center;
+        /* PC端三列等宽，自动处理间距，替代原先复杂的 flex calc */
+        grid-template-columns: repeat(3, 1fr); 
+        gap: var(--space-24);
+    }
+
+    /* === 卡片样式 === */
+    .card {
+        position: relative;
+        top: -8vh;
+        /* 定义局部变量默认值，防止 JS 未传入时出错 */
+        --accent-color: var(--color-green);
+        --icon-filter: none;
+
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-32);
+        padding: var(--space-32); /* 稍微缩小内边距让布局更紧凑 */
+        
+        background-color: var(--color-wh4);
+        border: 1px solid var(--color-wh); /* 预留边框位置避免 hover 跳动 */ 
+        border-radius: 16px;
+        box-shadow: var(--shadow-l); /* 默认阴影改小一点 */
+        transition: var(--transition);
+        
+        /* 确保 flex 子项高度一致 */
+        /* height: 100%;  */
+    }
+
+    .card:hover {
+        background-color: var(--color-wh);
+        transform: translateY(-8px); /* 仅向上移动，不缩放，体验更稳 */
+    }
+
+    /* === 图标区域 === */
+    .icon-wrapper {
+        flex-shrink: 0; /* 防止被挤压 */
+        display: flex;
+        width: 88px;
+        height: 88px;
+        align-items: center;
+        justify-content: center;
+        border-radius: 16px;
+        
+        /* 核心优化：使用 CSS 变量动态生成背景色 */
+        background-color: color-mix(in oklab, var(--accent-color) 15%, transparent);
+        transition: background-color 0.3s;
+    }
+
+    /* 卡片悬停时，图标背景稍微加深 */
+    .card:hover .icon-wrapper {
+        background-color: color-mix(in oklab, var(--accent-color) 25%, transparent);
+    }
+
+    .icon {
+        width: 64px;
+        height: 64px;
+        mix-blend-mode: darken; /* 正片叠底效果 */
+        
+        /* 核心优化：使用 CSS 变量应用滤镜 */
+        filter: var(--icon-filter);
+    }
+
+    /* === 文本区域 === */
+    .text-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-12);
+    }
+
+    .card-title {
+        font-size: 1.25rem; /* 20px */
+        font-weight: 600;
+        color: var(--color-blk);
+    }
+
+    .description {
+        font-size: 1rem; /* 16px */
+        color: var(--color-gy2);
+        font-weight: 400;
+        line-height: 1.6;
+        word-break: break-all;
+    }
+
+    /* === 响应式设计 === */
+    @media (max-width: 1024px) {
+        .grid-wrapper {
+            grid-template-columns: 1fr; /* 变为单列 */
+            gap: var(--space-24);
+        }
+
+        .card {
+            height: 100%;
+            flex-direction: row; /* 变为横向布局 (图标左，文字右) */
+            align-items: center; /* 顶部对齐 */
+            gap: var(--space-24);
+            padding: var(--space-24);
+        top: 0;
+        }
+
+        .icon-wrapper {
+            width: 64px;
+            height: 64px;
+            border-radius: 12px;
+        }
+
+        .icon {
+            width: 40px;
+            height: 40px;
+        }
+        
+        .text-wrapper {
+            gap: var(--space-8);
+        }
+        
+        .card-title {
+            font-size: 1.125rem;
+        }
+    }
+</style>

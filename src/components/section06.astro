@@ -1,0 +1,228 @@
+---
+const { id } = Astro.props; // 必须有这一行来接收 index 传过来的 id
+import { Image } from 'astro:assets';
+
+// 导入本地图片
+import img6 from '/src/assets/imgs/AVC/6.jpg'; // 大图
+import img7 from '/src/assets/imgs/AVC/7.jpg'; // 小图 1
+import img8 from '/src/assets/imgs/AVC/8.jpg'; // 小图 2
+import img9 from '/src/assets/imgs/AVC/9.jpg'; // 小图 3
+import img10 from '/src/assets/imgs/AVC/10.jpg'; // 小图 4
+
+// import "../styles/global.css"
+---
+
+<!-- 添加 project-section 类以便 flex 布局生效 -->
+<section class="project-section" id={id}>
+    
+    <!-- 左侧：文本信息 -->
+    <div class="left">
+        <div class="title font-title2">
+            <span class="title-symbol"></span>督导巡课管理系统
+            <span class="title-description font-text color-blue uppercase">Teaching Supervision & Inspection System</span>
+        </div>
+        
+        <div class="page-item">
+            <div class="item-header font-subtext text-loose text-bold color-gy3">
+                <span class="status-dot"></span>COMPLEX SYSTEM UX STRATEGY
+            </div>
+            <div class="item-content-wrapper">
+                <div class="item-title font-title-caption text-bold color-blk">复杂系统交互 </div>
+                <div class="item-content font-text color-gy2">
+                    主导督导巡课系统在多角色、多流程场景下的体验策略与交互设计。整合任务分配、过程记录、问题反馈与整改追踪，构建清晰可控的督导业务闭环
+                </div>
+            </div>
+        </div>
+
+        <div class="page-item">
+            <div class="item-header font-subtext text-loose text-bold color-gy3">
+                <span class="status-dot"></span>VISUAL SIMPLIFICATION
+            </div>
+            <div class="item-content-wrapper">
+                <div class="item-title font-title-caption text-bold color-blk">视觉信息聚焦 </div>
+                <div class="item-content font-text color-gy2">
+                    通过视觉层级与模块化布局，化繁为简，提升复杂管理信息的可读性与决策效率。在公告、光荣榜与预警模块中强化信息聚焦，支持教学质量的持续改进
+                </div>
+            </div>
+        </div>
+
+        <div class="tags">
+            <span class="tag font-subtext color-gy3 uppercase round-8">MULTI-ROLE FLOW</span>
+            <span class="tag font-subtext color-gy3 uppercase round-8">PROCESS CLOSURE</span>
+        </div>
+    </div>
+
+    <!-- 右侧：图片 Flex -->
+    <div class="right">
+        <!-- 
+            大图 (gallery-large): flex: 0 0 100%
+        -->
+            <div class="gallery gallery-large round-8"><Image 
+            src={img6} 
+            alt="督导巡课系统预览大图" 
+            widths={[600, 1200, 1600]}
+            sizes="(max-width: 1024px) 100vw, 66vw"
+        /></div>
+        
+
+        <!-- 
+            小图: flex: 0 0 calc(50% - gap/2)
+        -->
+            <div 
+            class="gallery round-8"><Image 
+            src={img7} 
+            alt="督导巡课系统细节 1" 
+            widths={[400, 800]}
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+        /></div>
+        <div 
+            class="gallery round-8"><Image 
+            src={img8} 
+            alt="督导巡课系统细节 2" 
+            widths={[400, 800]}
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+        /></div>
+        <div 
+            class="gallery round-8"><Image 
+            src={img9} 
+            alt="督导巡课系统细节 1" 
+            widths={[400, 800]}
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+        /></div>
+        <div 
+            class="gallery round-8"><Image 
+            src={img10} 
+            alt="督导巡课系统细节 2" 
+            widths={[400, 800]}
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+        /></div>
+        
+        
+    </div>
+
+</section>
+
+<style>
+    /* 
+       父容器设置 
+    */
+    .project-section {
+        display: flex;
+        gap: var(--space-64); 
+        width: 100%;
+        margin-bottom: var(--space-80);
+    }
+
+    /* === 左侧布局 (保持不变) === */
+    .left {
+        flex: 0 0 calc((100% - var(--space-64)) / 12 * 4);
+        min-width: 0;
+    }
+
+    .title { margin-bottom: var(--space-56); }
+    .title-symbol {
+        display: block; width: 32px; height: 4px; 
+        background: var(--color-blue); margin-bottom: var(--space-16);
+    }
+    .title-description { margin-top: var(--space-8); display: block; }
+
+    .item-header {
+        display: flex;
+        gap: var(--space-8);
+        align-items: center;
+    }
+    .status-dot {
+        width: 6px;
+        height: 6px;
+        background-color: var(--color-blue);
+        border-radius: 50%;
+        flex-shrink: 0;
+    }
+
+    .item-content-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-16);
+        border-left: 1px solid var(--color-gy5);
+        padding-left: var(--space-12);
+        margin-top: var(--space-8); 
+        margin-bottom: var(--space-48);
+    }
+
+    .item-content {
+        overflow-wrap: anywhere; 
+        line-height: 1.6;
+    }
+
+    .tags { display: flex; gap: var(--space-8); flex-wrap: wrap; }
+    .tag {
+        background-color: var(--color-gy6);
+        border: 1px solid var(--color-gy5);
+        padding: var(--space-4) var(--space-12);
+        font-weight: 800;
+        letter-spacing: 0.125em;
+    }
+
+    /* === 右侧图片 Flex 改造 === */
+    .right {
+        /* 1. 将 Grid 改为 Flex */
+        flex: 0 0 calc((100% - var(--space-64)) / 12 * 8);
+        display: flex;
+        flex-wrap: wrap; /* 允许换行 */
+        gap: var(--space-16); /* 现代 Flex 支持 gap */
+        align-content: flex-start;
+    }
+
+    .gallery {
+        /* 2. 小图逻辑：占据一半宽度，减去间隙的一半 */
+        flex: 0 0 calc(50% - var(--space-16) / 2);
+        
+        /* height: 100%;  */
+        aspect-ratio: 16 / 9;
+        object-fit: cover; 
+        box-shadow: var(--shadow-m);
+        transition: var(--transition);
+        display: block; 
+        overflow: hidden;
+    }
+
+    .gallery:hover {
+        transform: scale(1.02) translateY(-0.25rem);
+        box-shadow: var(--shadow-l);
+    }
+
+    /* 3. 大图逻辑：强制占据 100% 宽度 */
+    .gallery-large {
+        flex: 0 0 100%;
+    }
+
+    .gallery-large:hover {
+        transform: scale(1.01) translateY(-0.25rem);
+    }
+    .gallery img {
+        width: 100%;
+        height: auto;
+    }
+
+    /* === 响应式 === */
+    @media(max-width: 1024px) {
+        .project-section {
+            flex-direction: column; 
+            gap: var(--space-40);
+        }
+        .left, .right {
+            flex: 0 0 100%; 
+        }
+    }
+
+    @media(max-width: 640px) {
+        .right {
+            /* 移动端逻辑：无需改变 display，只需改变子元素宽度 */
+        }
+        
+        /* 4. 移动端强制所有图片（包括小图）变为 100% 宽 */
+        .gallery {
+            flex: 0 0 100%;
+        }
+    }
+</style>

@@ -1,0 +1,192 @@
+---
+// 1. 引入 Astro 的 Image 组件
+import { Image } from "astro:assets";
+
+// 2. 导入本地图片 (替换原有的字符串路径)
+// 假设你的路径结构是正确的，Astro 会在构建时处理这些文件
+import img1 from "/src/assets/imgs/POA-EM/1.jpg"; // 左下大图
+import img2 from "/src/assets/imgs/POA-EM/2.png"; // 左上
+import img3 from "/src/assets/imgs/POA-EM/3.png"; // 右上
+import img4 from "/src/assets/imgs/POA-EM/4.png"; // 右下下 (18:9)
+import img5 from "/src/assets/imgs/POA-EM/5.png"; // 右下上 (16:9)
+
+const { id } = Astro.props; // 必须有这一行来接收 index 传过来的 id
+---
+
+<section class="section-vertical" id={id}>
+    <div class="title font-title2">
+        <span class="title-symbol"></span>核心场景展示<span
+            class="title-description font-text color-blue"
+            >ONLINE TEACHING SYSTEM</span
+        >
+    </div>
+    <div class="layout-container">
+        <!-- 第一行 -->
+        <div class="top-row">
+            <!-- 容器 4099 -->
+            <div class="grid-item round-8">
+                <!-- 
+                   3. 使用 Image 组件 
+                   widths: 生成不同宽度的缩略图 (如 400px 用于手机, 800px 用于高清屏)
+                   sizes: 告诉浏览器这张图大概占屏幕多宽 (这里假设占视口的一半左右)
+                -->
+                <Image
+                    src={img2}
+                    alt="场景展示 2"
+                    class="gallery ratio-16-9"
+                    widths={[400, 800]}
+                    sizes="(max-width: 480px) 100vw, 50vw"
+                />
+            </div>
+            <!-- 容器 4100 -->
+            <div class="grid-item round-8">
+                <Image
+                    src={img3}
+                    alt="场景展示 3"
+                    class="gallery ratio-16-9"
+                    widths={[400, 800]}
+                    sizes="(max-width: 480px) 100vw, 50vw"
+                />
+            </div>
+        </div>
+
+        <!-- 第二行 -->
+        <div class="bottom-row">
+            <!-- 左侧：容器 4104 (大) -->
+            <div class="grid-item biggest-card round-8">
+                <!-- 
+                    这张是大图，需要更大的 width 
+                    class="fill-height" 配合 CSS 的 object-fit 确保填满
+                -->
+                <Image
+                    src={img1}
+                    alt="核心大图展示"
+                    class="gallery fill-height"
+                    widths={[600, 1200]}
+                    sizes="(max-width: 1024px) 100vw, 66vw"
+                />
+            </div>
+
+            <!-- 右侧：两层堆叠 -->
+            <div class="right-column-stack">
+                <!-- 上：容器 4102 -->
+                <div class="grid-item round-8">
+                    <Image
+                        src={img5}
+                        alt="场景展示 5"
+                        class="gallery ratio-16-9"
+                        widths={[400, 800]}
+                    />
+                </div>
+                <!-- 下：容器 4103 -->
+                <div class="grid-item round-8">
+                    <Image
+                        src={img4}
+                        alt="场景展示 4"
+                        class="gallery ratio-18-9"
+                        widths={[400, 800]}
+                    />
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    /* ... 保留原有 CSS ... */
+    .title {
+        margin-bottom: 3vh;
+    }
+    .title-symbol {
+        display: block;
+        width: 32px;
+        height: 4px;
+        background: var(--color-green);
+        margin-bottom: var(--space-16);
+    }
+    .title-description {
+        margin-top: var(--space-4);
+        display: none;
+    }
+    .layout-container {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-16);
+        width: 100%;
+    }
+    .grid-item {
+        display: flex;
+        flex-direction: column;
+        transition: var(--transition);
+        box-shadow: var(--shadow-m);
+        overflow: hidden;
+        gap: 4px;
+    }
+    .grid-item:hover {
+        transform: scale(1.02) translateY(-0.25rem);
+        box-shadow: var(--shadow-l);
+    }
+    .top-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-16);
+    }
+    .bottom-row {
+        display: grid;
+        grid-template-columns: 17fr 9fr;
+        gap: var(--space-16);
+    }
+    .right-column-stack {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-16);
+        justify-content: space-between;
+    }
+    .ratio-16-9 {
+        aspect-ratio: 16 / 9;
+    }
+    .ratio-18-9 {
+        aspect-ratio: 18 / 9;
+    }
+
+    /* === 重点修改：.gallery 样式 === */
+    .gallery {
+        width: 100%;
+        height: 100%; /* 确保填满父容器 */
+        object-fit: cover; /* 关键：防止 Astro 生成的图片尺寸与 CSS aspect-ratio 冲突导致变形 */
+        display: block; /* 消除 img 底部的默认间隙 */
+    }
+
+    /* .fill-height 只需要继承 gallery 的属性即可，或者保持原样 */
+    .fill-height {
+        flex-grow: 1;
+        height: 100%;
+        object-fit: cover; /* 再次确认覆盖 */
+    }
+
+    /* ... 媒体查询保持不变 ... */
+    @media (max-width: 1024px) {
+        .biggest-card {
+            grid-column: 1 / -1;
+            aspect-ratio: 16/9;
+        }
+        .right-column-stack {
+            grid-column: 1 / -1;
+            display: grid;
+            gap: var(--space-16);
+            grid-template-columns: 1.778fr 2fr;
+        }
+    }
+    @media (max-width: 480px) {
+        .top-row {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-16);
+        }
+        .right-column-stack {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-16);
+        }
+    }
+</style>

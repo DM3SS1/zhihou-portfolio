@@ -1,0 +1,231 @@
+---
+import { Image } from 'astro:assets';
+const { id } = Astro.props; // 必须有这一行来接收 index 传过来的 id
+
+// 1. 导入图片 (替换原有的字符串路径)
+import coverImg from '/src/assets/imgs/covers/poa-em_cover.jpg';
+
+// 2. 提取数据
+const tags = ["SCHNEIDER ELECTRIC", "B-END ENERGY SYSTEM", "UI/UX CASE"];
+const stats = [
+    { value: "60%", label: "任务操作路径缩短" },
+    { value: "80+", label: "标准化组件构建" }
+];
+---
+
+<section class="project-section aligh-center bg-gradient bg-grid" id={id}>
+    <!-- 背景大字装饰 -->
+    <div class="bg-text bg-text-l">POA-EM</div>
+
+    <!-- 左侧：文本信息 -->
+    <div class="left-col">
+        
+        <img class="company-logo" src="imgs/logo/schneider_logo.svg"/>
+        <div class="tags-wrapper">
+            {tags.map(tag => (
+                <span class="tag font-subtext uppercase round-full">{tag}</span>
+            ))}
+        </div>
+        
+        <div class="project-title font-exbt2">
+            POA-EM<span class="dot">.</span>
+        </div>
+        
+        <div class="project-description font-title-caption color-gy2">
+            B端能碳管理平台设计。通过构建一套全新的 
+            <span class="color-blk text-bold">工业级数据可视化体系</span>，
+            实现能源数字化闭环。
+        </div>
+
+        <div class="stats-wrapper">
+            {stats.map(stat => (
+                <div class="stat-item">
+                    <div class="stat-value font-title2 color-green">{stat.value}</div>
+                    <div class="stat-label font-subtext color-gy2">{stat.label}</div>
+                </div>
+            ))}
+        </div>
+    </div>
+
+    <!-- 右侧：浮动视觉图 -->
+    <div class="right-col">
+        <div class="visual-container">
+            <!-- 主图 -->
+            <Image 
+                src={coverImg} 
+                alt="POA-EM Interface Cover" 
+                class="main-image round-16"
+                widths={[600, 1200]}
+                sizes="(max-width: 1024px) 100vw, 60vw"
+            />
+            
+            <!-- 装饰性玻璃面板 -->
+            <div class="glass-panel">
+                <div class="bar bar-1"></div>
+                <div class="bar bar-2"></div>
+                <div class="bar bar-3"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    /* === 布局基础 === */
+    .project-section {
+        position: relative; /* 为 bg-text 定位 */
+        display: grid;
+        /* 使用 Grid 替代复杂的 calc((100% - gap)/12*5) */
+        grid-template-columns: 5fr 7fr; 
+        gap: var(--space-64);
+        align-items: center;
+        overflow: hidden; /* 防止浮动动画被裁切 */
+    }
+
+
+    /* === 左侧内容 === */
+    .left-col {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-40);
+        position: relative;
+        z-index: 1; /* 确保文字在背景字之上 */
+          /* 关键：告诉子元素不要拉伸，要依据自身大小对齐 */
+  align-items: flex-start; /* 或者 center */
+    }
+
+    /* 标签 */
+    .tags-wrapper {
+        display: flex;
+        gap: var(--space-8);
+        flex-wrap: wrap;
+        margin-bottom: calc(var(--space-24) * -1); /* 视觉微调 */
+    }
+    .tag {
+        background-color: rgba(61, 205, 88, 0.15); /* 使用 rgba 代替 color-mix 更稳定 */
+        color: var(--color-green);
+        padding: 6px 12px;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+    }
+
+    /* 标题 */
+    .project-title {
+        color: var(--color-blk);
+    }
+    .dot { color: var(--color-green); }
+
+    /* 描述 */
+    .project-description {
+        padding-bottom: var(--space-40);
+        border-bottom: 1px solid var(--color-gy5);
+        line-height: 1.6;
+    }
+
+    /* 数据 */
+    .stats-wrapper {
+        display: flex;
+        gap: var(--space-48);
+    }
+    .stat-item {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-4);
+    }
+
+    /* === 右侧视觉 === */
+    .right-col {
+        position: relative;
+        z-index: 1;
+        /* Grid 默认会拉伸高度，align-self 确保它保持自身高度 */
+        align-self: center; 
+    }
+
+    .visual-container {
+        position: relative;
+        width: 100%;
+        /* 浮动动画容器 */
+        animation: floating 6s ease-in-out infinite;
+        /* 开启硬件加速，防止旋转时锯齿 */
+        will-change: transform; 
+    }
+
+    .main-image {
+        width: 100%;
+        height: auto;
+        display: block;
+        box-shadow: var(--shadow-l);
+        /* 初始旋转状态，配合 keyframes */
+        transform: rotate(-2deg); 
+    }
+
+    /* === 玻璃面板组件 === */
+    .glass-panel {
+        position: absolute;
+        bottom: -1.5rem;
+        left: -1.5rem;
+        width: 12rem;
+        padding: 1rem;
+        
+        background: rgba(255, 255, 255, 0.65);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.8);
+        border-left: 4px solid var(--color-green);
+        
+        box-shadow: 
+            0 20px 40px rgba(0, 0, 0, 0.1), 
+            inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+    }
+
+    /* 面板内的装饰条 */
+    .bar {
+        background-color: var(--color-gy5);
+        border-radius: 4px;
+        margin-bottom: 8px;
+        height: 6px;
+    }
+    .bar-1 { width: 30%; background-color: var(--color-gy4); margin-bottom: 12px; height: 8px; }
+    .bar-2 { width: 100%; }
+    .bar-3 { width: 70%; margin-bottom: 0; }
+
+    /* === 动画 === */
+    @keyframes floating {
+        0%   { transform: translateY(0px) rotate(-2deg); }
+        50%  { transform: translateY(-20px) rotate(-1deg); }
+        100% { transform: translateY(0px) rotate(-2deg); }
+    }
+
+    /* === 响应式 === */
+    @media (max-width: 1024px) {
+        .project-section {
+            grid-template-columns: 1fr; /* 单列 */
+            gap: var(--space-48);
+        }
+        
+        .right-col {
+            order: -1; /* 图片在移动端显示在上面? 如果想保持在下面则去掉此行 */
+            width: 100%;
+            max-width: 600px; /* 限制一下最大宽度 */
+            margin: 0 auto;
+        }
+
+        .visual-container {
+            /* 移动端减弱浮动幅度，防止超出屏幕 */
+            animation: floating 6s ease-in-out infinite; 
+        }
+
+        .bg-text {
+            font-size: 6rem;
+            bottom: -2%;
+            left: 0;
+        }
+    }
+        @media (max-width: 768px) {
+        .right-col {
+            width: 80%;
+            margin-top: 15vw;
+        }
+    }
+</style>

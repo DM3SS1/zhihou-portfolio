@@ -1,0 +1,476 @@
+---
+const { id } = Astro.props; // 必须有这一行来接收 index 传过来的 id
+---
+
+<section class="portfolio-hero sect-1" id={id}>
+  <div class="noise-overlay"></div>
+  <div class="bg-grid"></div>
+  <div class="bg-color"></div>
+
+  <header class="top-bar">
+    <div class="brand-group">
+      <div class="brand-title">ZHI HOU</div>
+      <div>UI / UX / PRODUCT</div>
+    </div>
+    <div class="meta-info-right">
+      <div class="mb-1">T. 2020 — 2025</div>
+      <div>SHANGHAI / XI'AN</div>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <div class="big-text-wrapper pos-primary" aria-hidden="true">
+      <h1 class="avant-title">
+        PORT<br class="title-br-mobile" />FOLIO
+      </h1>
+    </div>
+
+    <div class="big-text-wrapper pos-secondary" aria-hidden="true">
+      <div class="avant-title">DESIGN</div>
+    </div>
+
+    <article class="info-card">
+      <div class="corner-mark tl"></div>
+      <div class="corner-mark br"></div>
+
+      <div class="status-badge">
+        <span class="status-dot"></span>
+        <span class="status-text">Available for hire</span>
+      </div>
+
+      <h2 class="card-title">
+        资深<br />
+        <span class="gradient-text"> UI/交互设计师</span>
+      </h2>
+
+      <p class="card-desc">
+        9年+ 经验。跨界理工逻辑与艺术审美。<br />
+        具备优秀的<strong>多行业、跨平台设计领导力</strong>，<br />
+        擅长用全链路方案解决复杂场景交互难题。
+      </p>
+    </article>
+  </main>
+
+  <div class="scroll-indicator">
+    <span>向下滚动</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<style>
+  /* --- 1. CSS 变量定义 (配置中心) --- */
+  :root {
+    /* 层级管理 (Z-Index) */
+    --z-bg: 0;
+    --z-text-decor: 1;
+    --z-content: 10;
+    --z-nav: 20;
+    --z-noise: 999;
+
+    /* 玻璃拟态配置 */
+    --glass-bg: var(--color-wh5);
+    --glass-border: var(--color-wh2);
+    --blur-amt: 12px;
+  }
+
+  /* --- 2. 基础重置 --- */
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  /* --- 3. 布局容器 --- */
+  .portfolio-hero {
+    /* margin: 0; */
+    padding: 0;
+    position: relative;
+    /* min-height: 100vh; */
+    /* width: 100%; */
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* 背景网格 */
+  .bg-grid {
+    position: absolute;
+    inset: 0;
+    z-index: var(--z-bg);
+    background-image:
+      linear-gradient(var(--color-gy5) 1px, transparent 1px),
+      linear-gradient(90deg, var(--color-gy5) 1px, transparent 1px);
+    background-size: 120px 120px;
+    opacity: 0.4;
+    pointer-events: none;
+  }
+  .bg-color{
+    position: absolute;
+    inset: 0;
+    background-image: url("imgs/tailwind_bg.jpg");
+    background-size: cover;
+    background-position: 40% 50%;
+
+  }
+
+  /* --- 4. 顶部导航栏 --- */
+  .top-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    z-index: var(--z-nav);
+    font-size: 0.875rem;
+    font-family: monospace;
+    letter-spacing: 0.1em;
+    color: var(--color-gy2);
+  }
+
+  .brand-group .brand-title {
+    color: #000;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+    display: block;
+  }
+
+  .meta-info-right {
+    text-align: right;
+  }
+
+  /* 工具类：用于替代行内样式 */
+  .mb-1 {
+    margin-bottom: 0.25rem;
+  }
+
+  /* --- 5. 主内容区域 --- */
+  .main-content {
+    position: relative;
+    z-index: var(--z-content);
+    width: 100%;
+    flex: 1;
+    padding: 0 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* 巨型背景文字 (装饰性) */
+  .big-text-wrapper {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0);
+    width: 100%;
+    text-align: center;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  /* 第一个大标题：PORTFOLIO */
+  .big-text-wrapper.pos-primary {
+    top: 20vw;
+  }
+
+  /* 第二个大标题：DESIGN (背景水印) */
+  .big-text-wrapper.pos-secondary {
+    top: -3vw;
+    opacity: 0.25;
+  }
+
+  .avant-title {
+    font-size: clamp(7rem, 18vw, 18vw);
+    font-weight: 100;
+    line-height: 0.8;
+    color: rgba(0, 0, 0, 0.88);
+    mix-blend-mode: multiply;
+    position: relative;
+    z-index: var(--z-text-decor);
+    white-space: nowrap;
+    opacity: 0.15; /* 移动端默认透明度 */
+    margin: 0;
+  }
+
+  /* --- 6. 信息卡片 (玻璃拟态) --- */
+  .info-card {
+    flex: 0 0 auto;
+    padding: 1rem;
+    margin-top: 5rem;
+
+    /* 玻璃拟态核心 */
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--blur-amt));
+    -webkit-backdrop-filter: blur(var(--blur-amt));
+    border: 1px solid var(--glass-border);
+
+    position: relative;
+    overflow: hidden;
+
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  /* 角标装饰 */
+  .corner-mark {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border: 2px solid rgba(0, 0, 0, 0.25);
+    background: transparent;
+  }
+  .corner-mark.tl {
+    top: 0;
+    left: 0;
+    border-right: none;
+    border-bottom: none;
+  }
+  .corner-mark.br {
+    bottom: 0;
+    right: 0;
+    border-left: none;
+    border-top: none;
+  }
+
+  /* 状态栏 */
+  .status-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin: 0;
+  }
+
+  .status-dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    background-color: #3dcd58;
+    border-radius: 50%;
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    will-change: opacity; /* 性能优化 */
+  }
+
+  .status-text {
+    font-size: 0.875rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-gy2);
+  }
+
+  /* 卡片内容排版 */
+  .card-title {
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin: 0;
+    line-height: 1.25;
+    color: var(--color-blk);
+  }
+
+  .gradient-text {
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    background-image: linear-gradient(
+      to right,
+      var(--color-blue),
+      var(--color-green)
+    );
+  }
+
+  .card-desc {
+    color: var(--color-gy1);
+    font-size: 1.25rem;
+    line-height: 1.625;
+    font-weight: 300;
+    margin: 0;
+  }
+
+  .card-desc strong {
+    color: var(--color-blk);
+    font-weight: 600;
+  }
+
+  /* --- 7. 滚动提示 --- */
+  /* 1. 容器：确保位置和层级 */
+  .scroll-indicator {
+    position: absolute;
+    bottom: 104px; /* 保持你原有的位置 */
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px; /*稍微拉开一点间距，让动画不拥挤 */
+    z-index: var(--z-nav);
+    cursor: pointer; /* 增加手型，暗示可交互 */
+    transition: opacity 0.3s;
+  }
+
+  /* 交互：鼠标悬停时稍微变亮 */
+  .scroll-indicator:hover {
+    opacity: 1;
+  }
+
+  /* 2. 文字：轻微的呼吸节奏 */
+  .scroll-indicator span {
+    font-size: 0.875rem; /* 稍微调小一点，更精致 */
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-gy1);
+    opacity: 0.6;
+    /* 动画应用 */
+    animation: scroll-text-float 2.5s ease-in-out infinite;
+  }
+
+  /* 3. 线条：液体流动般的生长效果 */
+  .scroll-line {
+    width: 2px;
+    height: 48px; /* 稍微加长 */
+    background: linear-gradient(
+      to bottom,
+      var(--color-blue) 0%,
+      color-mix(in oklab, var(--color-green) 0%, transparent) 100%
+    );
+    /* 关键：设置变换基点为顶部 */
+    transform-origin: top;
+    /* 动画应用 */
+    animation: scroll-line-grow 2.5s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+  }
+
+  /* --- Keyframes 关键帧定义 --- */
+
+  /* 文字浮动动画 */
+  @keyframes scroll-text-float {
+    0%,
+    100% {
+      transform: translateY(0);
+      opacity: 0.4;
+    }
+    50% {
+      transform: translateY(4px); /* 向下沉一点 */
+      opacity: 1; /* 变实 */
+    }
+  }
+
+  /* 线条生长动画 - 核心逻辑：从上往下长出来，然后消失 */
+  @keyframes scroll-line-grow {
+    0% {
+      transform: scaleY(0); /* 初始状态：收缩到0 */
+      opacity: 0;
+    }
+    20% {
+      opacity: 0.4; /* 快速显现 */
+    }
+    50% {
+      transform: scaleY(1); /* 伸展到全长 */
+      opacity: 0.4;
+    }
+    90% {
+      transform: scaleY(1); /* 保持全长 */
+      opacity: 0; /* 慢慢消失 */
+    }
+    100% {
+      transform: scaleY(0); /* 复位 */
+      opacity: 0;
+    }
+  }
+
+  /* .scroll-line {
+    width: 2px;
+    height: 48px;
+    background: linear-gradient(
+      to bottom,
+      var(--color-blue) 0%,
+      color-mix(in oklab, var(--color-green) 0%, transparent) 100%
+    );
+  } */
+
+  /* --- 8. 噪点遮罩 --- */
+  .noise-overlay {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: var(--z-noise);
+    opacity: 0.05;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='1'/%3E%3C/svg%3E");
+    /* filter: brightness(60%); */
+  }
+
+  /* --- 9. 动画定义 --- */
+  @keyframes pulse {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+
+  /* --- 10. 响应式设计 (Media Queries) --- */
+  @media (min-width: 480px) {
+    .title-br-mobile {
+      display: none;
+    }
+  }
+
+  @media (min-width: 768px) {
+    /* 顶部栏调整 */
+    .top-bar {
+      font-size: 1rem;
+    }
+    .meta-info-right {
+      display: block;
+    }
+
+    /* 布局调整：桌面端左对齐 */
+    .main-content {
+      align-items: flex-start;
+    }
+
+    /* 巨型文字位置重置 */
+    .big-text-wrapper {
+      /* transform: none; */
+      /* left: 0; */
+      /* text-align: left; */
+    }
+
+    .big-text-wrapper.pos-primary {
+      top: 12vw;
+    }
+    .big-text-wrapper.pos-secondary {
+      opacity: 0.08;
+    }
+
+    .avant-title {
+      font-size: clamp(7rem, 16vw, 18vw);
+      opacity: 1;
+    }
+
+    /* 卡片位置调整 */
+    .info-card {
+      padding: 1rem;
+      margin-top: 0;
+      /* 保持原有的偏移设计 */
+      transform: translate(10vw, 8vw);
+    }
+
+    .card-title {
+      font-size: 3.875rem;
+    }
+    .card-desc {
+      font-size: 1.5rem;
+    }
+    .scroll-indicator span {
+      font-size: 1rem;
+    }
+    .scroll-indicator {
+      bottom: 40px;
+    }
+  }
+</style>

@@ -1,0 +1,404 @@
+/* styles.css */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap');
+
+
+
+:root {
+    font-size: 16px;
+    font-weight: 400;
+    /* 或 100% 或 62.5%（10px） */
+    /* --color-50: color-mix(in oklch, var(--primary) 10%, white);
+        --color-100: color-mix(in oklch, var(--primary) 20%, white);
+        --color-200: color-mix(in oklch, var(--primary) 30%, white);
+        --color-300: color-mix(in oklch, var(--primary) 40%, white);
+        --color-900: color-mix(in oklch, var(--primary) 90%, black); */
+    --color-green: #3dcd58;
+    --color-blue: #007cc8;
+    --color-bg: #f8f9fa;
+    --color-blk: color-mix(in oklch, #000000 100%, transparent);
+    --color-gy1: color-mix(in oklch, #000000 65%, transparent);
+    --color-gy2: color-mix(in oklch, #000000 45%, transparent);
+    --color-gy3: color-mix(in oklch, #000000 25%, transparent);
+    --color-gy4: color-mix(in oklch, #000000 15%, transparent);
+    --color-gy5: color-mix(in oklch, #000000 8%, transparent);
+    --color-gy6: color-mix(in oklch, #000000 4%, transparent);
+    --color-gy7: color-mix(in oklch, #000000 2%, transparent);
+
+
+    --color-wh: color-mix(in oklch, #ffffff 100%, transparent);
+    --color-wh1: color-mix(in oklch, #ffffff 75%, transparent);
+    --color-wh2: color-mix(in oklch, #ffffff 55%, transparent);
+    --color-wh3: color-mix(in oklch, #ffffff 35%, transparent);
+    --color-wh4: color-mix(in oklch, #ffffff 20%, transparent);
+    --color-wh5: color-mix(in oklch, #ffffff 12%, transparent);
+    --color-wh6: color-mix(in oklch, #ffffff 8%, transparent);
+    --color-wh7: color-mix(in oklch, #ffffff 4%, transparent);
+
+    --font-size-96: 5.75rem;
+    /*96*/
+    --font-size-46: 2.875rem;
+    /*46*/
+    --font-size-38: 2.375rem;
+    /*38*/
+    --font-size-20: 1.25rem;
+    /*20*/
+    --font-size-16: 1rem;
+    /*16*/
+    --font-size-14: 0.875rem;
+    /*14*/
+    --font-size-12: 0.75rem;
+    /*12*/
+
+    --sm: 640px;
+    --md: 768px;
+    --lg: 1024px;
+    --xl: 1280px;
+    --xxl: 1536px;
+
+    --space-4: 0.25rem;
+    --space-8: 0.5rem;
+    --space-12: 0.75rem;
+    --space-16: 1rem;
+    --space-24: 1.5rem;
+    --space-32: 2rem;
+    --space-40: 2.5rem;
+    --space-48: 3rem;
+    --space-56: 3.5rem;
+    --space-64: 4rem;
+    --space-72: 4.5rem;
+    --space-80: 5rem;
+    --space-88: 5.5rem;
+    --space-96: 6rem;
+    --space-104: 6.5rem;
+    --space-112: 7rem;
+    --space-120: 7.5rem;
+
+
+
+    --shadow-s: calc(0 * 0.125rem) calc(1 * 0.125rem) calc(1 * 0.125rem) calc(-0.5 * 0.125rem) color-mix(in oklab, #101219 calc(1 * 4% + 8%), transparent);
+    --shadow-m: calc(0 * 0.5rem) calc(1 * 0.5rem) calc(1 * 0.5rem) calc(-0.5 * 0.5rem) color-mix(in oklab, #101219 calc(1 * 4% + 8%), transparent);
+    --shadow-l: calc(0 * 1.5rem) calc(1 * 1.5rem) calc(1 * 3rem) calc(-0.5 * 1.5rem) color-mix(in oklab, #101219 calc(1 * 4% + 8%), transparent);
+    --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+
+.color-blk {
+    color: var(--color-blk);
+}
+
+.color-gy1 {
+    color: var(--color-gy1);
+}
+
+.color-gy2 {
+    color: var(--color-gy2);
+}
+
+.color-gy3 {
+    color: var(--color-gy3);
+}
+
+.color-gy4 {
+    color: var(--color-gy4);
+}
+
+.color-gy5 {
+    color: var(--color-gy5);
+}
+
+.color-gy6 {
+    color: var(--color-gy6);
+}
+
+.color-gy7 {
+    color: var(--color-gy7);
+}
+
+.color-wh {
+    color: var(--color-wh);
+}
+
+.color-wh1 {
+    color: var(--color-wh1);
+}
+
+.color-wh2 {
+    color: var(--color-wh2);
+}
+
+.color-wh3 {
+    color: var(--color-wh3);
+}
+
+.color-wh4 {
+    color: var(--color-wh4);
+}
+
+.color-wh5 {
+    color: var(--color-wh5);
+}
+
+.color-wh6 {
+    color: var(--color-wh6);
+}
+
+.color-wh7 {
+    color: var(--color-wh7);
+}
+
+.color-green {
+    color: var(--color-green);
+}
+
+.color-blue {
+    color: var(--color-blue);
+}
+
+
+.title-symbol-se::before {
+    content: '';
+    display: block;
+    width: 32px;
+    height: 4px;
+    background: var(--color-green);
+    margin-bottom: 16px;
+}
+
+.title-symbol-avc::before {
+    content: '';
+    display: block;
+    width: 32px;
+    height: 4px;
+    background: var(--color-blue);
+    margin-bottom: 16px;
+}
+
+.font-exbt1 {
+    font-size: 12vw;
+    /**/
+    line-height: 0.9;
+    letter-spacing: -0.05em;
+    font-weight: 900;
+}
+
+.font-exbt2 {
+    font-size: var(--font-size-96);
+    font-weight: 700;
+    line-height: 1.1;
+}
+
+.font-title1 {
+    font-size: var(--font-size-46);
+    font-weight: 800;
+    line-height: 1.2;
+}
+
+.font-title2 {
+    font-size: var(--font-size-38);
+    font-weight: 800;
+    line-height: 1.2;
+}
+
+.font-title-caption {
+    font-size: var(--font-size-20);
+    line-height: 1.4;
+}
+
+.font-text {
+    font-size: var(--font-size-16);
+    line-height: 1.4;
+}
+
+
+.font-text-caption {
+    font-size: var(--font-size-14);
+    line-height: 1.4;
+}
+
+.font-subtext {
+    font-size: var(--font-size-12);
+    line-height: 1.4;
+}
+
+.text-bold {
+    font-weight: 800;
+}
+
+.text-light {
+    font-weight: 300;
+}
+
+.text-loose {
+    letter-spacing: 0.25em;
+}
+
+.uppercase {
+    text-transform: uppercase;
+}
+
+.round-full {
+    border-radius: 1000px;
+}
+
+.round-16 {
+    border-radius: 16px;
+}
+
+.round-8 {
+    border-radius: 8px;
+}
+
+html body {
+    font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+    background-color: var(--color-bg);
+    color: var(--color-blk);
+    margin: 0;
+    user-select: none;
+    /* 禁止文本选择 */
+    caret-color: transparent;
+    /* 将光标颜色设为透明 */
+}
+
+section {
+    position: relative;
+    min-height: 100vh;
+    padding: 4% 5%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-64);
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.section-vertical {
+    flex-direction: column;
+    gap: 0;
+}
+
+.aligh-center {
+    align-items: center;
+}
+
+.section-200vh {
+    padding: 5%;
+}
+
+/* 专门针对打印/保存 PDF 的优化 */
+
+.bg-grid {
+    background-image:
+        radial-gradient(circle, var(--color-gy5) 1px, transparent 1px),
+        linear-gradient(to right, var(--color-gy7) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--color-gy7) 1px, transparent 1px);
+    background-size: 20px 20px, 100px 100px, 100px 100px;
+    /* opacity: 0.6; */
+    z-index: 0;
+
+}
+
+.bg-pattern {
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.4)),
+        url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMzAgMEw2MCA2MEgwTDMwIDBaIiBmaWxsPSIlMjMwMDdDQzgiIGZpbGwtb3BhY2l0eT0iMC4wMyIvPjwvc3ZnPg==');
+    background-size: 80px 80px;
+}
+
+.bg-gradient {
+    background: radial-gradient(circle at top right, color-mix(in oklch, var(--color-green) 15%, transparent), #ffffff);
+}
+
+.bg-text {
+    font-size: 20vw;
+    font-weight: 800;
+    line-height: 0.8;
+}
+
+.bg-text-l {
+    position: absolute;
+    color: var(--color-gy6);
+    bottom: -6%;
+    left: -3%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.bg-text-r {
+    position: absolute;
+    color: color-mix(in oklch, var(--color-green) 6%, transparent);
+    bottom: -6%;
+    right: -4%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.company-logo {
+    position: relative;
+    left: var(--space-12);
+    height: 48px;
+    max-width: 100%
+}
+
+@media print {
+    .bg-text {
+        display: none;
+    }
+
+    .section-200vh {
+        height: 200vh;
+    }
+
+    .section {
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    .bg-grid {
+        /* 1. 强制启用背景打印（部分浏览器需要） */
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+
+        /* 2. 进一步加深线条颜色，防止 PDF 渲染过浅 */
+        background-image:
+            radial-gradient(circle, var(--color-gy3) 1px, transparent 1px),
+            linear-gradient(to right, var(--color-gy5) 1px, transparent 1px),
+            linear-gradient(to bottom, var(--color-gy5) 1px, transparent 1px);
+
+    }
+}
+
+
+/* 平板 */
+@media (max-width: 1024px) {
+    :root {
+        font-size: 15px;
+    }
+
+    /* section {
+        padding: 4% 5%;
+    } */
+}
+
+/* 大手机 */
+@media (max-width: 768px) {
+    :root {
+        font-size: 14px;
+    }
+
+    .company-logo {
+        height: 32px;
+    }
+}
+
+/* 小手机 */
+@media (max-width: 480px) {
+    :root {
+        font-size: 12px;
+    }
+}

@@ -1,0 +1,198 @@
+---
+const { id } = Astro.props; // 必须有这一行来接收 index 传过来的 id
+import { Image } from 'astro:assets';
+
+// 1. 导入图片
+import imgDataViz from '/src/assets/imgs/tech/1.png';
+import imgVue from '/src/assets/imgs/tech/2.png';
+import imgThree from '/src/assets/imgs/tech/3.jpg';
+import imgHMI from '/src/assets/imgs/tech/4.png';
+
+// 2. 定义数据结构
+// 这样管理内容比直接写在一堆 HTML 里更清晰，也方便调整颜色逻辑
+const skills = [
+    {
+        tag: "DataViz",
+        desc: "数字孪生和数据可视化大屏设计",
+        img: imgDataViz,
+        // 定义标签配色风格: 'light' (白底蓝字) | 'green' | 'orange'
+        theme: "light" 
+    },
+    {
+        tag: "Vue.js",
+        desc: "自主搭建基于 Vue 3 和 CSS 的前端 UI 框架，定制 Element Plus 组件样式",
+        img: imgVue,
+        theme: "green"
+    },
+    {
+        tag: "Three.js",
+        desc: "通过Three.js，在代码层面探索 Web 数字孪生的视觉可能",
+        img: imgThree,
+        theme: "orange"
+    },
+    {
+        tag: "拟物设计",
+        desc: "HMI 设计（结合硬件的使用场景定制拟物、扁平等多样风格）",
+        img: imgHMI,
+        theme: "light"
+    }
+];
+---
+
+<section class="section-vertical" id={id}>
+    <div class="title font-title2 color-blk">
+        <span class="title-symbol font-subtext text-loose uppercase text-bold color-blue">
+            Skills Expanding
+        </span>
+        技能拓展
+        <span class="title-description font-text color-gy2">
+            / 覆盖智慧校园全业务链条
+        </span>
+    </div>
+
+    <div class="panel-wrapper">
+        {skills.map((item) => (
+            <div class="panel">
+                
+
+                <div class="description">
+                    {item.desc}
+                </div>
+                <!-- 图片容器：用于处理缩放溢出和圆角 -->
+                <div class="image-container">
+                    
+                <!-- 标签：根据 theme 动态应用 class -->
+                <div class:list={["tag", `tag-${item.theme}`]}>
+                    {item.tag}
+                </div>
+                    <Image 
+                        src={item.img} 
+                        alt={item.tag} 
+                        class="gallery"
+                        widths={[400, 800]} 
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                    />
+                </div>
+            </div>
+        ))}
+    </div>
+</section>
+
+<style>
+    /* === 标题样式 === */
+    .title {
+        margin-bottom: 3vh;
+        position: relative;
+    }
+    .title-symbol {
+        display: block;
+        margin-bottom: var(--space-8);
+    }
+    .title-description {
+        /* 原代码 display: none，如果不需要显示建议直接移除 HTML，或者保留如下 */
+        display: none; 
+        margin-left: var(--space-16);
+        font-weight: 400;
+        opacity: 0.8;
+    }
+
+    /* === 网格布局 === */
+    .panel-wrapper {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); /* 两列布局 */
+        gap: var(--space-24); /* 统一控制间距，替代原有的 padding hack */
+    }
+
+    .panel {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-12);
+        /* 移除原 padding，改用 gap 控制整体布局更干净 */
+    }
+
+    /* === 图片区域 === */
+    .image-container {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 16/9;
+    }
+
+    .gallery {
+        width: 100%;
+        height: 100%;
+        border-radius: 8px;
+        object-fit: cover; /* 关键：防止图片变形 */
+        transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s ease;
+        display: block;
+    }
+
+    /* Hover 效果优化：放大图片 */
+    .panel:hover .gallery {
+        transform: scale(1.02) translateY(-0.15rem);
+        filter: drop-shadow(0px 16px 24px rgba(0, 0, 0, 0.3));
+    }
+
+    /* === 标签样式体系 === */
+    .tag {
+        position: absolute;
+        left: var(--space-16); /* 稍微调整边距，视觉更平衡 */
+        top: var(--space-16);
+        padding: 4px 12px;
+        border-radius: 100px;
+        font-size: var(--font-size-12);
+        font-weight: 800;
+        z-index: 2;
+        backdrop-filter: blur(4px); /* 增加磨砂玻璃效果，提升现代感 */
+        letter-spacing: 0.5px;
+    }
+
+    /* 标签颜色变体 (替代 nth-child) */
+    .tag-light {
+        background-color: rgba(255, 255, 255, 0.85);
+        color: #007cc8;
+        border: 1px solid rgba(255, 255, 255, 0.9);
+        box-shadow: 0 2px 8px rgba(0, 124, 200, 0.15);
+    }
+    
+    .tag-green {
+        background-color: #3dcd58;
+        color: #fff;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        box-shadow: 0 2px 8px rgba(61, 205, 88, 0.3);
+    }
+
+    .tag-orange {
+        background-color: #ff8f1f;
+        color: #fff;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        box-shadow: 0 2px 8px rgba(255, 143, 31, 0.3);
+    }
+
+    /* === 描述文字 === */
+    .description {
+        /* padding: 0 var(--space-4);  微调内边距 */
+        font-size: var(--font-size-14);
+        color: var(--color-gy2);
+        font-weight: 600;
+        line-height: 1.5;
+    }
+
+    /* === 响应式 === */
+    @media (max-width: 768px) {
+        .panel-wrapper {
+            grid-template-columns: 1fr; /* 变单列 */
+            gap: var(--space-32); /* 增加垂直间距 */
+        }
+        
+        .panel {
+            gap: var(--space-8);
+        }
+        
+        /* 移动端标签稍微缩小一点偏移量 */
+        .tag {
+            left: 12px;
+            top: 12px;
+        }
+    }
+</style>

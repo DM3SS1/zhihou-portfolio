@@ -1,0 +1,404 @@
+---
+import { Image } from 'astro:assets';
+
+// 导入本地图片
+import img5 from '/src/assets/imgs/EBO/5.jpg';
+import img6 from '/src/assets/imgs/EBO/6.jpg';
+import img7 from '/src/assets/imgs/EBO/7.jpg';
+import img8 from '/src/assets/imgs/EBO/8.jpg';
+import img9 from '/src/assets/imgs/EBO/9.jpg';
+import img10 from '/src/assets/imgs/EBO/10.jpg';
+import img11 from '/src/assets/imgs/EBO/11.jpg';
+import img12 from '/src/assets/imgs/EBO/12.jpg';
+import img13 from '/src/assets/imgs/EBO/13.jpg';
+import img14 from '/src/assets/imgs/EBO/14.jpg';
+import img15 from '/src/assets/imgs/EBO/15.jpg';
+import img16 from '/src/assets/imgs/EBO/16.jpg';
+import img17 from '/src/assets/imgs/EBO/17.jpg';
+import img18 from '/src/assets/imgs/EBO/18.jpg';
+import img19 from '/src/assets/imgs/EBO/19.jpg';
+
+const { id } = Astro.props; // 必须有这一行来接收 index 传过来的 id
+---
+
+<section class="section-vertical dark-bg sect-13" id={id}>
+    <div class="header">
+        <div class="img-wrapper">
+            <div class="img-tag uppercase text-bold">STATUS: REAL-TIME BINDING</div>
+            <Image 
+                src={img5} 
+                alt="EBO 展示 6" 
+                class="gallery round-8 aspect-16-9" 
+                widths={[400, 800]}
+                sizes="(max-width: 480px) 100vw, 50vw"
+            />
+        </div>
+        <div class="header-content">
+            <div class="font-subtext color-green text-loose">IMPLEMENTATION</div>
+            <div class="color-wh header-title">从矢量设计到<br><span class="color-green">实时监控</span>的闭环</div>
+            <div class="color-wh2 font-text-caption">支持根据现场实际情况灵活搭建暖通管路模型，并通过与现场点位绑定，实现设备运行状态的实时可视化展示。所制作页面精致、交互完善，获得了承包商及客户的一致认可。</div>
+            <div class="header-card-wrapper">
+                <div class="header-card">
+                <span class="font-title-caption color-green text-bold">SVG/TGML</span><span class="font-subtext color-wh3 uppercase text-loose text-light">OUTPUT FORMAT<span></div>
+                    <div class="header-card">
+                <span class="font-title-caption color-green text-bold">Interactive</span><span class="font-subtext color-wh3 uppercase text-loose text-light">POINT MAPPING<span></div>
+                </div>
+                </div>
+                
+        </div>
+    </div>
+    <div class="tilte-wrapper">
+        <div class="title font-title2 color-wh">
+            <span class="title-symbol"></span>设计案例展示
+            <span class="title-description font-text color-gy2">
+                不仅是像素的排列，更是可复用、可扩展的逻辑系统
+            </span>
+        </div>
+    </div>
+    <div class="layout-container">
+        <!-- 第一行：标准两列 -->
+        <div class="grid-row--halves">
+            <Image 
+                src={img6} 
+                alt="EBO 展示 6" 
+                class="gallery round-8 aspect-16-9" 
+                widths={[400, 800]}
+                sizes="(max-width: 480px) 100vw, 50vw"
+            />
+            <Image 
+                src={img7} 
+                alt="EBO 展示 7" 
+                class="gallery round-8 aspect-16-9"
+                widths={[400, 800]}
+                sizes="(max-width: 480px) 100vw, 50vw"
+            />
+        </div>
+
+        <!-- 第二行：复杂布局 -->
+        <div class="grid-row--complex">
+            <!-- 左侧：宽卡片 (使用 object-fit 填满 3.875:1 的框) -->
+            <Image 
+                src={img8} 
+                alt="EBO 展示 8" 
+                class="gallery round-8 aspect-wide"
+                widths={[600, 1200]}
+                sizes="(max-width: 1024px) 100vw, 70vw"
+            />
+
+            <!-- 右侧：堆叠组 -->
+            <div class="stack-column">
+                <!-- 这里不需要指定 ratio，依靠 flex: 1 自动填充 -->
+                <Image 
+                    src={img9} 
+                    alt="EBO 展示 9" 
+                    class="gallery round-8"
+                    widths={[300, 600]}
+                    sizes="(max-width: 480px) 100vw, (max-width: 1024px) 50vw, 30vw"
+                />
+                <Image 
+                    src={img10} 
+                    alt="EBO 展示 10" 
+                    class="gallery round-8"
+                    widths={[300, 600]}
+                    sizes="(max-width: 480px) 100vw, (max-width: 1024px) 50vw, 30vw"
+                />
+            </div>
+        </div>
+
+        <!-- 第三行：标准两列 -->
+        <div class="grid-row--halves">
+            <Image 
+                src={img11} 
+                alt="EBO 展示 11" 
+                class="gallery round-8 aspect-16-9"
+                widths={[400, 800]}
+                sizes="(max-width: 480px) 100vw, 50vw"
+            />
+            <Image 
+                src={img12} 
+                alt="EBO 展示 12" 
+                class="gallery round-8 aspect-16-9"
+                widths={[400, 800]}
+                sizes="(max-width: 480px) 100vw, 50vw"
+            />
+        </div>
+        
+        <!-- 第四行：标准两列 -->
+        <div class="grid-row--halves">
+            <Image 
+                src={img13} 
+                alt="EBO 展示 11" 
+                class="gallery round-8 aspect-16-9"
+                widths={[400, 800]}
+                sizes="(max-width: 480px) 100vw, 50vw"
+            />
+            <Image 
+                src={img14} 
+                alt="EBO 展示 12" 
+                class="gallery round-8 aspect-16-9"
+                widths={[400, 800]}
+                sizes="(max-width: 480px) 100vw, 50vw"
+            />
+        </div>
+
+        <!-- 第五行：复杂布局 -->
+        <div class="grid-row--complex2">
+            <!-- 左侧：堆叠组 -->
+            <div class="stack-column2">
+                <!-- 这里不需要指定 ratio，依靠 flex: 1 自动填充 -->
+                <Image 
+                    src={img15} 
+                    alt="EBO 展示 9" 
+                    class="gallery round-8"
+                    widths={[300, 600]}
+                    sizes="(max-width: 480px) 100vw, (max-width: 1024px) 50vw, 30vw"
+                />
+                <Image 
+                    src={img17} 
+                    alt="EBO 展示 10" 
+                    class="gallery round-8"
+                    widths={[300, 600]}
+                    sizes="(max-width: 480px) 100vw, (max-width: 1024px) 50vw, 30vw"
+                />
+            </div>
+            <!-- 右侧：宽卡片 (使用 object-fit 填满 3.875:1 的框) -->
+            <Image 
+                src={img16} 
+                alt="EBO 展示 8" 
+                class="gallery round-8 aspect-16-9"
+                widths={[600, 1200]}
+                sizes="(max-width: 1024px) 100vw, 70vw"
+            />
+        </div>
+                <!-- 底部行：特殊比例 (1.6 : 1.2178) -->
+        <div class="grid-row--irregular">
+            <!-- 左侧：占比约 57% -->
+            <Image 
+                src={img18} 
+                alt="AVC Detail 3" 
+                class="gallery round-8 aspect-weird"
+                widths={[400, 800]}
+                sizes="(max-width: 480px) 100vw, (max-width: 1024px) 60vw, 38vw"
+            />
+            <!-- 右侧：占比约 43% -->
+            <Image 
+                src={img19} 
+                alt="AVC Detail 4" 
+                class="gallery round-8 aspect-16-9"
+                widths={[300, 600]}
+                sizes="(max-width: 480px) 100vw, (max-width: 1024px) 40vw, 28vw"
+            />
+        </div>
+    </div>
+</section>
+
+<style>    .dark-bg {
+        background:
+            linear-gradient(
+                color-mix(in oklab, var(--color-blue) 100%, #000000 25%),
+                color-mix(in oklab, var(--color-blue) 0%, #262626 5%)
+            ),
+            url("imgs/portrait-bg.jpg");
+        background-size: cover;
+    }
+    /* === 头部样式 === */
+    .header {
+        flex: 1;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: var(--space-56);
+         margin-bottom: var(--space-56); 
+    }
+    .img-wrapper{
+        position: relative;
+        flex: 1 1 calc( 60% - var(--space-56) );
+        aspect-ratio: 16/9;
+        /* background-color: black; */
+    }
+    .img-tag {
+        position: absolute;
+        right: -12px;
+        bottom: -12px;
+        padding: var(--space-8) var(--space-16);
+        background-color: var(--color-green);
+        border-radius: 8px;
+        color: var(--color-wh);
+        font-size: var(--font-size-12);
+        z-index: 10;
+    }
+    .header-title {
+        font-size: 1.875rem;
+        font-weight:600;
+    }
+    .header-content {
+        flex: 1 1 calc( 40% - var(--space-56) );
+        display: flex;
+        align-items: start;
+        flex-direction: column;
+        gap: var(--space-24);
+    }
+    .header-card-wrapper {
+        width:100%;
+        display:flex;
+        gap: var(--space-16);
+    }
+    .header-card {
+        flex: 1 1 calc( 50% - var(--space-24) );
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-8);
+        background-color: var(--color-wh6);
+        padding: var(--space-12);
+        border-radius: 16px;
+        border: 1px solid var(--color-wh5);
+    }
+    .header-card span {
+        display: block;
+    }
+
+        /* === 标题样式 === */
+    .title { margin-bottom: var(--space-24); }
+    .title-symbol { 
+        display: block; width: 32px; height: 4px; 
+        background: var(--color-green); margin-bottom: var(--space-16); 
+    }
+    .title-description { 
+        margin-top: var(--space-8); display: none; font-weight: 400; 
+    }
+
+    .layout-container {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-16);
+        width: 100%;
+    }
+
+    /* === 通用图片样式 === */
+    .gallery {
+        /* background-color: #000; 图片加载前背景色，可选 */
+        display: block; /* 移除 img 默认行内间距 */
+        width: 100%;
+        height: 100%; /* 关键：撑满网格单元 */
+        object-fit: cover; /* 关键：保证图片裁切不拉伸 */
+        transition: var(--transition);
+    }
+    .gallery:hover {
+        transform: scale(1.02) translateY(-0.25rem);
+        box-shadow: 0px 8px 24px 8px color-mix(in oklab, var(--color-blue) 40%, transparent);
+    }
+
+    /* === 布局行定义 === */
+
+    /* 标准两列布局 */
+    .grid-row--halves {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-16);
+    }
+
+    /* 复杂非对称布局 */
+    .grid-row--complex {
+        display: grid;
+        grid-template-columns: 2.42fr 1fr;
+        gap: var(--space-16);
+    }
+    
+    .grid-row--complex2 {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        gap: var(--space-16);
+    }
+
+    /* === 右侧堆叠容器 === */
+    .stack-column, .stack-column2 {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-16);
+        justify-content: space-between;
+        height: 100%; /* 确保容器高度填满 grid 单元 */
+    }
+
+        /* === 底部特殊行布局 === */
+    .grid-row--irregular {
+        grid-column: 1 / -1; /* 占据父 Grid 的整行 */
+        
+        display: grid;
+        gap: var(--space-16);
+        /* 
+           保持你的数学逻辑：
+           左 1.6fr (16/10) vs 右 1.2178fr (274/225)
+           这能保证两张不同宽高比的图片在高度上完美对齐
+        */
+        grid-template-columns: 2.389fr 1.778fr;
+    }
+
+    /* 
+       修复点：原代码是 .stack-column .gallery round-8 
+       这是错误的写法（它在找 <gallery> 标签下的 <round-8> 标签）。
+       正确写法如下：
+    */
+    .stack-column .gallery, .stack-column2 .gallery {
+        flex: 1; /* 让图片平分剩余高度 */
+        min-height: 0; /* 防止内容溢出 */
+    }
+
+    /* === 宽高比工具类 === */
+    .aspect-16-9 {
+        aspect-ratio: 16 / 9;
+    }
+
+    .aspect-wide {
+        aspect-ratio: 3.875 / 1;
+    }
+    .aspect-weird {
+        aspect-ratio: 2.389/1;
+    }
+
+    /* === 响应式处理 === */
+    @media (max-width: 1024px) {
+        .img-wrapper {
+            flex: 1 1 100%;
+        }
+        /* 复杂行 -> 垂直 Flex (解决 iOS Safari 问题) */
+        .grid-row--complex, .grid-row--complex2 {
+            display: flex; 
+            flex-direction: column;
+            gap: var(--space-16); 
+        }
+
+        /* 堆叠容器 -> 网格两列 */
+        .stack-column, .stack-column2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-16); /* 显式声明 gap */
+        }
+
+        /* 移动端堆叠图片改为横向比例 */
+        .stack-column .gallery {
+            aspect-ratio: 3.672 / 1;
+            /* 取消 flex: 1，由 aspect-ratio 控制高度 */
+            flex: initial; 
+        }
+        .stack-column2 .gallery {
+            aspect-ratio: 16 / 9;
+            /* 取消 flex: 1，由 aspect-ratio 控制高度 */
+            flex: initial; 
+        }
+    }
+
+    @media (max-width: 480px) {
+        .grid-row--halves,
+        .stack-column, .stack-column2 {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-16);
+        }
+        
+        .grid-row--irregular {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-16);
+        }
+    }
+</style>

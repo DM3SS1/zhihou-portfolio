@@ -1,0 +1,277 @@
+---
+import { Image } from "astro:assets";
+
+// 导入本地图片
+import img1 from "/src/assets/imgs/AVC/1.jpg"; // Top (16:10)
+import img2 from "/src/assets/imgs/AVC/2.jpg"; // Mid Left (16:10)
+import img3 from "/src/assets/imgs/AVC/3.jpg"; // Mid Right (16:10)
+import img4 from "/src/assets/imgs/AVC/4.jpg"; // Bot Left (16:10)
+import img5 from "/src/assets/imgs/AVC/5.png"; // Bot Right (274:225)
+
+const { id } = Astro.props; // 必须有这一行来接收 index 传过来的 id
+---
+
+<section class="project-section" id={id}>
+    <!-- 左侧：文本区域 -->
+    <div class="left">
+        <div class="title font-title2">
+            <span class="title-symbol"></span>在线教学系统
+            <span class="title-description font-text color-blue uppercase"
+                >ONLINE TEACHING SYSTEM</span
+            >
+        </div>
+
+        <div class="page-item">
+            <div
+                class="item-header font-subtext text-loose text-bold color-gy3"
+            >
+                <span class="status-dot"></span>FULL-STACK DESIGN LEAD
+            </div>
+            <div class="item-content-wrapper">
+                <div class="item-title font-title-caption text-bold color-blk">
+                    全流程设计
+                </div>
+                <div class="item-content font-text color-gy2">
+                    为高校及职校打造的一体化在线教学平台。主导从调研洞察到交互框架与视觉系统的完整设计闭环，构建以学生为核心的数字化学习体验
+                </div>
+            </div>
+        </div>
+
+        <div class="page-item">
+            <div
+                class="item-header font-subtext text-loose text-bold color-gy3"
+            >
+                <span class="status-dot"></span>DESIGN HIGHLIGHTS
+            </div>
+            <div class="item-content-wrapper">
+                <div class="item-title font-title-caption text-bold color-blk">
+                    设计亮点
+                </div>
+                <div class="item-content font-text color-gy2">
+                    融合直播、点播、讨论与课堂标注等关键教学能力，延展教学场景边界。以轻量化视觉语言与清晰的交互路径，支持网络化、数字化与个性化的教学体系建设
+                </div>
+            </div>
+        </div>
+
+        <div class="tags">
+            <span class="tag font-subtext color-gy3 uppercase round-8"
+                >LIVE & VOD SYSTEM</span
+            >
+            <span class="tag font-subtext color-gy3 uppercase round-8"
+                >INTERACTIVE LEARNING</span
+            >
+        </div>
+    </div>
+
+    <!-- 右侧：图片 Grid -->
+    <div class="right">
+        <!-- 顶部通栏 -->
+        <Image
+            src={img1}
+            alt="AVC Overview"
+            class="gallery top-row round-8 ratio-16-10"
+            widths={[600, 1200]}
+            sizes="(max-width: 1024px) 100vw, 66vw"
+        />
+
+        <!-- 中间行：两列等分 -->
+        <div class="center-row-wrapper">
+            <div class="gallery round-8 ratio-16-10">
+                <Image
+                    src={img2}
+                    alt="AVC Detail 3"
+                    widths={[400, 800]}
+                    sizes="(max-width: 480px) 100vw, (max-width: 1024px) 60vw, 38vw"
+                />
+            </div>
+            <div class="gallery round-8 ratio-16-10">
+                <Image
+                    src={img3}
+                    alt="AVC Detail 3"
+                    widths={[400, 800]}
+                    sizes="(max-width: 480px) 100vw, (max-width: 1024px) 60vw, 38vw"
+                />
+            </div>
+        </div>
+
+        <!-- 底部行：特殊比例 (1.6 : 1.2178) -->
+        <div class="bottom-row-wrapper">
+            <!-- 左侧：占比约 57% -->
+            <Image
+                src={img4}
+                alt="AVC Detail 3"
+                class="gallery round-8 ratio-16-10"
+                widths={[400, 800]}
+                sizes="(max-width: 480px) 100vw, (max-width: 1024px) 60vw, 38vw"
+            />
+            <!-- 右侧：占比约 43% -->
+            <Image
+                src={img5}
+                alt="AVC Detail 4"
+                class="gallery round-8 ratio-weird"
+                widths={[300, 600]}
+                sizes="(max-width: 480px) 100vw, (max-width: 1024px) 40vw, 28vw"
+            />
+        </div>
+    </div>
+</section>
+
+<style>
+    /* === 布局基础 === */
+    .project-section {
+        display: flex;
+        gap: var(--space-64);
+        width: 100%;
+        margin-bottom: var(--space-80);
+    }
+
+    .left {
+        flex: 0 0 calc((100% - var(--space-64)) / 12 * 4);
+        min-width: 0;
+    }
+
+    .right {
+        flex: 0 0 calc((100% - var(--space-64)) / 12 * 8);
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-16);
+        flex-wrap: wrap;
+        /* align-content: start; */
+    }
+
+    /* === 左侧内容样式 === */
+    .title {
+        margin-bottom: var(--space-56);
+    }
+    .title-symbol {
+        display: block;
+        width: 32px;
+        height: 4px;
+        background: var(--color-blue);
+        margin-bottom: var(--space-16);
+    }
+    .title-description {
+        margin-top: var(--space-8);
+        display: block;
+    }
+
+    .item-header {
+        display: flex;
+        gap: var(--space-8);
+        align-items: center;
+    }
+    .status-dot {
+        width: 6px;
+        height: 6px;
+        background-color: var(--color-blue);
+        border-radius: 50%;
+    }
+
+    .item-content-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-16);
+        border-left: 1px solid var(--color-gy5);
+        padding-left: var(--space-12);
+        margin-top: var(--space-8);
+        margin-bottom: var(--space-48);
+    }
+    .item-content {
+        overflow-wrap: anywhere;
+        line-height: 1.6;
+    }
+
+    .tags {
+        display: flex;
+        gap: var(--space-8);
+        flex-wrap: wrap;
+    }
+    .tag {
+        background-color: var(--color-gy6);
+        border: 1px solid var(--color-gy5);
+        padding: var(--space-4) var(--space-12);
+        font-weight: 800;
+        letter-spacing: 0.125em;
+    }
+
+    /* === 图片通用样式 === */
+    .gallery {
+        /* display: block; */
+        /* flex: 0 0 100%; */
+        width: 100%;
+        height: auto;
+        object-fit: cover; /* 核心：防止图片变形 */
+        box-shadow: var(--shadow-m);
+        transition: var(--transition);
+        overflow: hidden;
+    }
+    .gallery img {
+        width: 100%;
+        height: auto;
+    }
+    .gallery:hover {
+        transform: scale(1.02) translateY(-0.25rem);
+        box-shadow: var(--shadow-l);
+    }
+
+    /* 宽高比定义 (配合 object-fit: cover 使用) */
+    .ratio-16-10 {
+        aspect-ratio: 16 / 10;
+    }
+    .ratio-weird {
+        aspect-ratio: 274 / 225;
+    }
+
+    .center-row-wrapper {
+        /* flex: 1; */
+        display: flex;
+        gap: var(--space-16);
+        flex-wrap: wrap;
+    }
+    .center-row-wrapper .gallery {
+        flex: 0 0 calc(50% - var(--space-16) / 2);
+    }
+
+    /* === 底部特殊行布局 === */
+    .bottom-row-wrapper {
+        grid-column: 1 / -1;
+
+        display: grid;
+        gap: var(--space-16);
+        grid-template-columns: 1.6fr 1.2178fr;
+    }
+
+    /* === 响应式设计 === */
+    @media (max-width: 1024px) {
+        .project-section {
+            flex-direction: column;
+            gap: var(--space-40);
+        }
+        .left,
+        .right {
+            flex: 0 0 100%;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .right {
+            display: flex;
+            flex-direction: column; /* 整个右侧变为垂直堆叠 */
+        }
+
+        /* 
+           重点：底部特殊行在移动端也必须解除 Grid，
+           改为 Flex Column，防止 Safari 出现重叠 Bug，
+           同时让图片自然撑满宽度。
+        */
+        .center-row-wrapper .gallery {
+            flex: 0 0 100%;
+        }
+        .bottom-row-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-16);
+        }
+    }
+</style>

@@ -1,0 +1,333 @@
+---
+const { id } = Astro.props; // 必须有这一行来接收 index 传过来的 id
+---
+
+<section class="aligh-center dark-bg sect-2" id={id}>
+    <div class="left-container">
+        <div class="portrait round-16"></div>
+        <div class="address-wrapper round-16">
+            <div class="phone-info">
+                <!-- <span class="font-text color-wh1 uppercase">Phone</span> -->
+                 <svg class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="12001" width="1.5rem" height="1.5rem"><path d="M339 558q-94-94-149-191-60-105-60-190 0-83 58-138 17-18 38-27t41-9q37 0 57 28l89 125q20 29 20 51 0 13-7 26t-22 28l-29 30q-6 6-6 15t4 17q10 18 36 49 24 29 55.5 60.5T525 488q31 26 49 36 10 5 17 5 9 0 16-7l29-29q15-15 28-22t26-7q22 0 51 20l126 90q27 19 27 54 0 41-35 81-55 60-138.5 60T531 708q-98-56-192-151v1z" fill="#ffffff" p-id="12002"></path></svg>
+                <span class="font-title-caption color-wh uppercase"
+                    >15618536959</span
+                >
+            </div>
+            <div class="mail">
+                <svg class="icon" viewBox="0 0 1080 1080" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="20478" width="1.5rem" height="1.5rem"><path d="M600.746667 423.253333l368.64-238.933333s3.413333 0 3.413333-3.413333c-20.48-20.48-47.786667-34.133333-78.506667-34.133334H160.426667c-30.72 0-58.026667 13.653333-75.093334 30.72l385.706667 245.76c34.133333 23.893333 95.573333 23.893333 129.706667 0zM655.36 501.76c-34.133333 20.48-75.093333 34.133333-119.466667 34.133333-40.96 0-85.333333-10.24-116.053333-30.72L47.786667 269.653333v484.693334c0 61.44 51.2 109.226667 109.226666 109.226666h733.866667c61.44 0 109.226667-47.786667 109.226667-109.226666V273.066667l-344.746667 228.693333z" fill="#ffffff" p-id="20479"></path></svg>
+                <span class="font-title-caption color-wh"
+                    >1050278974@qq.com</span
+                >
+            </div>
+            <div class="wechat">
+                <svg class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="6117" width="1.5rem" height="1.5rem"><path d="M683.058 364.695c11 0 22 1.016 32.943 1.976C686.564 230.064 538.896 128 370.681 128c-188.104 0.66-342.237 127.793-342.237 289.226 0 93.068 51.379 169.827 136.725 229.256L130.72 748.43l119.796-59.368c42.918 8.395 77.37 16.79 119.742 16.79 11 0 21.46-0.48 31.914-1.442a259.168 259.168 0 0 1-10.455-71.358c0.485-148.002 128.744-268.297 291.403-268.297l-0.06-0.06z m-184.113-91.992c25.99 0 42.913 16.79 42.913 42.575 0 25.188-16.923 42.579-42.913 42.579-25.45 0-51.38-16.85-51.38-42.58 0-25.784 25.93-42.574 51.38-42.574z m-239.544 85.154c-25.384 0-51.374-16.85-51.374-42.58 0-25.784 25.99-42.574 51.374-42.574 25.45 0 42.918 16.79 42.918 42.575 0 25.188-16.924 42.579-42.918 42.579z m736.155 271.655c0-135.647-136.725-246.527-290.983-246.527-162.655 0-290.918 110.88-290.918 246.527 0 136.128 128.263 246.587 290.918 246.587 33.972 0 68.423-8.395 102.818-16.85l93.809 50.973-25.93-84.677c68.907-51.93 120.286-119.815 120.286-196.033z m-385.275-42.58c-16.923 0-34.452-16.79-34.452-34.179 0-16.79 17.529-34.18 34.452-34.18 25.99 0 42.918 16.85 42.918 34.18 0 17.39-16.928 34.18-42.918 34.18z m188.165 0c-16.984 0-33.972-16.79-33.972-34.179 0-16.79 16.927-34.18 33.972-34.18 25.93 0 42.913 16.85 42.913 34.18 0 17.39-16.983 34.18-42.913 34.18z" fill="#09BB07" p-id="6118"></path></svg>
+                <span class="font-title-caption color-wh"
+                    >argentinam</span
+                >
+            </div>
+        </div>
+    </div>
+    <div class="right-container">
+        <div class="font-subtext color-blue uppercase text-bold text-loose">
+            about me
+        </div>
+        <div class="font-title1 color-wh uppercase text-bold">
+            <span style="display: inline-block;">理工严谨性</span>&nbsp;&nbsp;<span class="color-wh3">X</span
+            >&nbsp;&nbsp;<span style="display: inline-block;">艺术表现力</span>
+        </div>
+        <div
+            class="font-title-caption color-wh2"
+            style="padding: var(--space-24) 0px; border-bottom: 1px solid var(--color-wh5);"
+        >
+            本硕跨专业背景（自动化 +
+            美术专业），赋予了我看待设计的独特视角。我不仅关注界面的“美”，更深挖底层逻辑的“真”。
+        </div>
+        <div class="right-center">
+            <div class="edu">
+                <div
+                    class="font-subtext color-wh3 text-bold uppercase text-loose"
+                    style="display: flex; align-items: center; gap:var(--space-12)"
+                >
+                    <span
+                        class="round-full"
+                        style="width: 4px; height: 4px; background-color: var(--color-blue)"
+                    ></span> Education
+                </div>
+                <div class="school xfa">
+                    <span
+                        class="font-text-caption color-wh2"
+                        style="display: block; margin: var(--space-4) 0px;"
+                        >2021.09 - 2024.07</span
+                    >
+                    <span
+                        class="font-text color-wh text-bold"
+                        style="display: block; margin: var(--space-4) 0px;"
+                        >西安美术学院 · 美术专业</span
+                    >
+                    <span
+                        class="font-text-caption color-wh2"
+                        style="display: block; margin: var(--space-4) 0px;"
+                        >全日制专业型硕士</span
+                    >
+                </div>
+                <div class="school xut">
+                    <span
+                        class="font-text-caption color-wh2"
+                        style="display: block; margin: var(--space-4) 0px;"
+                        >2012.09 - 2016.07</span
+                    >
+                    <span
+                        class="font-text color-wh text-bold"
+                        style="display: block; margin: var(--space-4) 0px;"
+                        >西安理工大学 · 自动化专业</span
+                    >
+                    <span
+                        class="font-text-caption color-wh2"
+                        style="display: block; margin: var(--space-4) 0px;"
+                        >工学学士</span
+                    >
+                </div>
+            </div>
+            <div class="exp">
+                <div
+                    class="font-subtext color-wh3 text-bold uppercase text-loose"
+                    style="display: flex; align-items: center; gap:var(--space-12)"
+                >
+                    <span
+                        class="round-full"
+                        style="width: 4px; height: 4px; background-color: var(--color-green)"
+                    ></span> EXPERIENCE
+                </div>
+                <div class="exp-item">
+                    <span
+                        class="font-text-caption color-green text-bold"
+                        style="display: block; margin: var(--space-4) 0px;"
+                        >2024.09 - 至今</span
+                    >
+                    <span
+                        class="font-text color-wh text-bold"
+                        style="display: block; margin: var(--space-4) 0px;"
+                        >北京艾威康科技有限公司</span
+                    >
+                </div>
+                <div class="exp-item">
+                    <span
+                        class="font-text-caption color-wh2"
+                        style="display: block; margin: var(--space-4) 0px;"
+                        >2018.08 - 2024.09</span
+                    >
+                    <span
+                        class="font-text color-wh text-bold"
+                        style="display: block; margin: var(--space-4) 0px;"
+                        >施耐德电气 (中国) 有限公司</span
+                    >
+                </div>
+                <div class="exp-item">
+                    <span
+                        class="font-text-caption color-wh2"
+                        style="display: block; margin: var(--space-4) 0px;"
+                        >2016.07 - 2018.08</span
+                    >
+                    <span
+                        class="font-text color-wh text-bold"
+                        style="display: block; margin: var(--space-4) 0px;"
+                        >胜科金仕达数据系统 (中国)</span
+                    >
+                </div>
+            </div>
+        </div>
+        <div class="right-bottom">
+            <div class="core-skills">
+                <div
+                    class="font-title-caption color-blue text-bold uppercase text-loose"
+                >
+                    核心能力 <span
+                        class="font-subtext color-wh3 text-light uppercase text-loose"
+                        >CORE SKILLS</span
+                    >
+                </div>
+                <div class="tags color-wh">
+                    <span>UCD 全流程设计</span><span>数据可视化</span><span
+                        >复杂系统架构</span
+                    >
+                </div>
+            </div>
+            <div class="toolkit">
+                <div
+                    class="font-title-caption color-green text-bold uppercase text-loose"
+                >
+                    软件技能 <span
+                        class="font-subtext color-wh3 text-light uppercase text-loose"
+                        >toolkit</span
+                    >
+                </div>
+                <div class="tags color-wh">
+                    <span>Figma</span><span> Mastergo</span><span>Sketch</span
+                    ><span>C4D</span><span>Blender</span><span>AE</span><span
+                        >Frontend</span
+                    >
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .dark-bg {
+        background:
+            linear-gradient(
+                color-mix(in oklab, var(--color-blue) 100%, #000000 25%),
+                color-mix(in oklab, var(--color-blue) 0%, #262626 5%)
+            ),
+            url("imgs/portrait-bg.jpg");
+        background-size: cover;
+    }
+    .left-container {
+        position: relative;
+        width: 100%;
+        /* background-color: var(--color-gy1); */
+        padding: var(--space-24) 0;
+    }
+    .portrait {
+        margin: var(--space-24);
+        background: url("imgs/portrait.jpg");
+        background-size: cover;
+        aspect-ratio: 3/4;
+    }
+    .address-wrapper {
+        backdrop-filter: blur(8px);
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        /* width: 288px; */
+        padding: var(--space-24);
+        background-color: color-mix(in oklab, var(--color-blue) 40%, #000000 15%);
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        gap: var(--space-12);
+        border: 2px solid var(--color-wh4);
+    }
+    .address-wrapper > * {
+        display: flex;
+        align-items: center;
+        gap: var(--space-12);
+    }
+    .address-wrapper > * > :first-child {
+        mix-blend-mode: color-dodge;
+    }
+
+    .about-me {
+    }
+    .right-container {
+        flex: 1 1;
+        padding: var(--space-12) 0;
+    }
+    .right-center {
+        width: 100%;
+        /* background-color: aliceblue; */
+        display: flex;
+        flex-wrap: wrap;
+        align-items: start;
+        padding: var(--space-40) 0px;
+        border-bottom: 1px solid var(--color-wh5);
+        gap: var(--space-32);
+        backdrop-filter: blur(16px);
+    }
+    .right-center > * {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-16);
+        flex: 1 1 calc(100%);
+    }
+    .school {
+        border-left: 1px solid var(--color-wh5);
+        padding-left: var(--space-96);
+        transition: var(--transition);
+    }
+    .school:hover { 
+        border-color: var(--color-blue);
+        border-width: 8px;
+        }
+    .exp-item {
+        border-left: 1px solid var(--color-wh5);
+        padding-left: var(--space-16);
+        transition: var(--transition);
+    }
+    
+    .exp-item:hover { 
+        border-color: var(--color-green);
+        border-width: 8px;
+    }
+    .xut {
+        background: url("imgs/logo/xut-logo.png") var(--space-12) center / var(--space-64) var(--space-64)
+            no-repeat;
+    }
+    .xfa {
+        background: url("imgs/logo/xfa-logo.png") var(--space-12) center / var(--space-64) var(--space-64)
+            no-repeat;
+    }
+
+    .right-bottom {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: start;
+        gap: var(--space-32);
+        margin: var(--space-24) 0;
+    }
+    .right-bottom > * {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-16);
+        /* margin: var(--space-24) 0; */
+        flex: 1 1 100%;
+    }
+    .tags {
+        display: flex;
+        gap: var(--space-8);
+        flex-wrap: wrap;
+    }
+    .tags > * {
+        border-radius: 8px;
+        padding: var(--space-4) var(--space-8);
+    }
+    .core-skills .tags > * {
+        background-color: color-mix(in oklab, var(--color-blue) 25%, transparent);
+        border: 1px solid color-mix(in oklab, var(--color-blue) 40%, transparent);
+        border-radius: 8px;
+        padding: var(--space-4) var(--space-8);
+    }
+    .toolkit .tags > * {
+        background-color: color-mix(
+            in oklab,
+            var(--color-green) 25%,
+            transparent
+        );
+        border: 1px solid
+            color-mix(in oklab, var(--color-green) 40%, transparent);
+        border-radius: 8px;
+        padding: var(--space-4) var(--space-8);
+    }
+
+    @media (min-width: 768px) {
+        .right-center > * {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-16);
+            flex: 1 1 calc((100% - var(--space-32)) / 2);
+        }
+        .right-bottom > * {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-16);
+            margin: var(--space-24) 0;
+            flex: 1 1 calc((100% - var(--space-32)) / 2);
+        }
+    }
+
+    @media (min-width: 1024px) {
+        .left-container {
+            width: 40%;
+        }
+    }
+</style>

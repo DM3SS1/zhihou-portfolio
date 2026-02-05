@@ -1,0 +1,301 @@
+---
+const { id } = Astro.props; // 必须有这一行来接收 index 传过来的 id
+import { Image } from 'astro:assets';
+
+// 1. 批量导入所有图标 (Eager loading)
+// 假设你的图片都在 src/assets/imgs/product_icons/ 目录下
+// { eager: true } 确保我们可以直接获取图片元数据，而不是 Promise
+const iconFiles = import.meta.glob('/src/assets/imgs/product_icons/*.png', { eager: true });
+
+// 2. 定义产品数据列表
+// 注意：filePath 必须匹配上面的 import 路径，这里我做了简单的字符串拼接处理
+const products = [
+    { name: "统一认证管理平台", icon: "统一认证管理平台.png" },
+    { name: "在线教学系统", icon: "在线教学系统.png" },
+    { name: "督导巡课管理系统", icon: "督导巡课管理系统.png" },
+    { name: "可视化信息管理平台 5.0", icon: "可视化信息管理平台 5.0.png" },
+    { name: "6500L 互动录播系统", icon: "6500L 互动录播系统.png" },
+    { name: "AVCare 知识图谱平台", icon: "AVCare 知识图谱平台.png" },
+    { name: "实验室物料管理系统", icon: "实验室物料管理系统.png" },
+    { name: "基础数据平台", icon: "基础数据平台.png" },
+    { name: "教学评估系统", icon: "教学评估系统.png" },
+    { name: "智慧生态实验室管理系统", icon: "智慧生态实验室管理系统.png" },
+    { name: "智慧校园大数据展示平台", icon: "智慧校园大数据展示平台.png" },
+];
+
+// 辅助函数：根据文件名获取导入的图片对象
+function getIconImage(filename: string) {
+    const path = `/src/assets/imgs/product_icons/${filename}`;
+    const mod = iconFiles[path] as { default: ImageMetadata };
+    if (!mod) {
+        throw new Error(`Image not found: ${path}`);
+    }
+    return mod.default;
+}
+---
+
+<section class="video-section" id={id}>
+    <!-- 背景视频层 -->
+    <div class="video-wrapper">
+        <video autoplay muted loop playsinline class="bg-video">
+            <source src="/videos/bg-animation.mp4" type="video/mp4" />
+        </video>
+        <!-- 叠加一层遮罩，确保文字可读性，防止视频过亮 -->
+        <div class="video-overlay"></div>
+    </div>
+
+    <!-- 内容层 -->
+    <div class="content-wrapper section-vertical">
+        <div class="title font-title2 color-wh">
+            <span class="title-symbol font-subtext text-loose uppercase text-bold color-blue">
+                Product Ecosystem
+            </span>
+            产品设计矩阵
+            <span class="title-description font-text color-wh2">
+                / 覆盖智慧校园全业务链条
+            </span>
+        </div>
+
+        <div class="product-cards-container">
+            <!-- 循环生成卡片 -->
+            {products.map((item) => (
+                <div class="product-card">
+                    <div class="icon-wrapper">
+                        <Image 
+                            src={getIconImage(item.icon)} 
+                            alt={item.name}
+                            class="product-icon"
+                            width={160} 
+                            densities={[1.5, 2]} 
+                        />
+                    </div>
+                    <div class="product-name">{item.name}</div>
+                </div>
+            ))}
+
+            <!-- More 按钮卡片 -->
+            <div class="more-card color-wh2 font-title-caption">
+                <div class="dots-group">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
+                More Solutions
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    /* === 布局结构优化 === */
+    .video-section {
+        position: relative;
+        width: 100%;
+        min-height: 100vh; /* 确保至少占满一屏 */
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+    }
+
+    /* 视频容器：绝对定位到底层 */
+    .video-wrapper {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+    }
+
+    .bg-video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    /* 遮罩层：统一管理明暗，不需要用 filter 调视频 */
+    .video-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.4); /* 黑色半透明遮罩 */
+        z-index: 1;
+    }
+
+    /* 内容容器：放在视频之上 */
+    .content-wrapper {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        /* 继承你原有的布局约束 */
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* === 标题样式 === */
+    .title {
+        margin-bottom: 7vh;
+        position: relative;
+    }
+    .title-symbol {
+        display: block;
+        margin-bottom: var(--space-8);
+        /* color-dodge 在深色背景视频上效果很好 */
+        mix-blend-mode: color-dodge; 
+    }
+    .title-description {
+        margin-left: var(--space-16);
+        font-weight: 400;
+        opacity: 0.8;
+    }
+
+    /* === Grid 布局 === */
+    .product-cards-container {
+        width: 100%;
+        display: grid;
+        /* PC端 4列 */
+        grid-template-columns: repeat(4, 1fr);
+        gap: 6vh var(--space-12);
+        align-content: start;
+    }
+
+    /* === 卡片样式 === */
+    .product-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        gap: var(--space-16);
+        width: 100%;
+        transition: transform 0.3s ease, opacity 0.3s ease;
+        cursor: pointer;
+    }
+
+    .product-card:hover {
+        transform: translateY(-8px);
+    }
+    
+    /* 增加悬停时图标发光效果 (可选) */
+    .product-card:hover .product-icon {
+        filter: drop-shadow(0 0 10px rgba(59, 130, 246, 0.5));
+    }
+
+    .icon-wrapper {
+        /* 控制图标容器大小，防止布局跳动 */
+        width: 16vw;
+        height: 16vw;
+        max-width: 140px;
+        max-height: 140px;
+        min-width: 64px;
+        min-height: 64px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .product-icon {
+        width: 100%;
+        height: auto;
+        object-fit: contain; /* 保持图标比例 */
+    }
+
+    .product-name {
+        width: 100%;
+        text-align: center;
+        position: relative;
+        font-size: 1.125rem; /* 18px */
+        font-weight: 400;
+        color: var(--color-wh);
+        line-height: 1.4;
+    }
+
+    /* 名字下方的光晕效果 */
+    .product-name::before {
+        content: "";
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        top: -1.8rem;
+        width: 80px; /* 固定光晕宽度比百分比更可控 */
+        height: 20px;
+        /* 使用 radial-gradient 模拟底部光照 */
+        background: radial-gradient(ellipse at center, rgba(59, 130, 246, 0.6) 0%, transparent 70%);
+        z-index: -1;
+        opacity: 0.8;
+        pointer-events: none;
+    }
+
+    /* === More Card 样式 === */
+    .more-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: var(--space-16);
+        text-align: center;
+        padding: var(--space-16);
+        opacity: 0.7;
+        transition: opacity 0.3s;
+        cursor: pointer;
+    }
+    .more-card:hover {
+        opacity: 1;
+    }
+
+    .dots-group {
+        display: flex;
+        gap: 6px;
+    }
+
+    .dot {
+        width: 6px;
+        height: 6px;
+        background: var(--color-wh3);
+        border-radius: 50%;
+        animation: breathe 2s infinite ease-in-out;
+    }
+    /* 让点点有个简单的呼吸动画 */
+    .dot:nth-child(2) { animation-delay: 0.2s; }
+    .dot:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes breathe {
+        0%, 100% { opacity: 0.4; }
+        50% { opacity: 1; }
+    }
+
+    /* === 响应式处理 === */
+    
+    /* 平板/小笔记本 (1024px 以下) */
+    @media (max-width: 1024px) {
+        .product-cards-container {
+            grid-template-columns: repeat(3, 1fr); /* 3列 */
+            gap: 5vh var(--space-12);
+        }
+    }
+
+    /* 手机 (640px 以下) */
+    @media (max-width: 640px) {
+        .title-description {
+            display: block;
+            margin-left: 0;
+            margin-top: 4px;
+            /* font-size: 0.9em; */
+        }
+
+        /* .product-cards-container {
+            grid-template-columns: repeat(2, 1fr); 
+            gap: 4vh var(--space-16);
+        }
+
+        .icon-wrapper {
+            width: 20vw;
+            height: 20vw;
+        } */
+
+        .product-name {
+            font-size: 1rem;
+        }
+    }
+</style>

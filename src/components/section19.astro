@@ -1,0 +1,16 @@
+---
+const { id } = Astro.props; // 必须有这一行来接收 index 传过来的 id
+import Gallery from "../components/parts/gallery_vecteezy.astro"
+// 父组件中路径是写死的，所以可以使用 import.meta.glob
+const TradiPainting = import.meta.glob('/src/assets/imgs/Traditional-painting/GOT/*.{jpeg,jpg,png}', { eager: true });
+---
+
+<section class="section-full" id={id}>
+    <Gallery images={TradiPainting} rowRatio={4.5} />
+</section>
+
+<style>
+    .section-full {
+        padding: var(--space-24);
+    }
+</style>

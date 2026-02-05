@@ -1,0 +1,371 @@
+---
+const { id } = Astro.props; // 必须有这一行来接收 index 传过来的 id
+import { Image } from "astro:assets";
+
+// 1. 批量导入图片
+// 假设文件名很有规律，或者你直接列出来
+import img1_1 from "/src/assets/imgs/Mobile/1-1.png";
+import img1_2 from "/src/assets/imgs/Mobile/1-2.png";
+import img1_3 from "/src/assets/imgs/Mobile/1-3.png";
+import img1_4 from "/src/assets/imgs/Mobile/1-4.png";
+import img1_5 from "/src/assets/imgs/Mobile/1-5.png";
+import img1_6 from "/src/assets/imgs/Mobile/1-6.png";
+import img1_7 from "/src/assets/imgs/Mobile/1-7.png";
+import img1_8 from "/src/assets/imgs/Mobile/1-8.png";
+
+import img2_1 from "/src/assets/imgs/Mobile/2-1.png";
+import img2_2 from "/src/assets/imgs/Mobile/2-2.png";
+import img2_3 from "/src/assets/imgs/Mobile/2-3.png";
+import img2_4 from "/src/assets/imgs/Mobile/2-4.png";
+import img2_5 from "/src/assets/imgs/Mobile/2-5.png";
+
+// 2. 数据结构
+const projects = [
+    {
+        title: "AVCare智慧校园综合信息管理平台",
+        images: [
+            img1_1,
+            img1_2,
+            img1_3,
+            img1_4,
+            img1_5,
+            img1_6,
+            img1_7,
+            img1_8,
+        ],
+    },
+    {
+        title: "在线教学移动端",
+        images: [img2_1, img2_2, img2_3, img2_4, img2_5],
+    },
+];
+---
+
+<section class="section-vertical page-bg" id={id}>
+    <!-- 标题区域 -->
+    <div class="header">
+        <div class="title font-title2 color-wh">
+            <span
+                class="title-symbol font-subtext text-loose uppercase text-bold color-blue"
+            >
+                mobile design
+            </span>
+            移动端设计
+            <span class="title-description font-text color-gy2">
+                / 覆盖智慧校园全业务链条
+            </span>
+        </div>
+    </div>
+
+    <!-- 展示区域 -->
+    <div class="display-container">
+        {
+            projects.map((project) => (
+                <div class="project-row">
+                    <div class="row-label font-subtext color-wh1">
+                        {project.title}
+                    </div>
+
+                    <div class="gallery-grid">
+                        {project.images.map((img, index) => (
+                            <div class="gallery">
+                                <Image
+                                    src={img}
+                                    alt={`${project.title} screenshot ${index + 1}`}
+                                    class="phone-mockup"
+                                    width={375}
+                                    densities={[1.5, 2]}
+                                />
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            ))
+        }
+    </div>
+</section>
+
+<style>
+    /* === 页面背景 === */
+    .page-bg {
+        background:
+            linear-gradient(
+                color-mix(in oklab, var(--color-blue) 100%, #000000 25%),
+                color-mix(in oklab, var(--color-blue) 0%, #262626 5%)
+            ),
+            url("imgs/portrait-bg.jpg");
+        background-size: cover;
+    }
+
+    /* === 标题样式 === */
+    .header {
+        margin-bottom: 3vh;
+    }
+    .title {
+        position: relative;
+    }
+    .title-symbol {
+        display: block;
+        margin-bottom: var(--space-8);
+        mix-blend-mode: color-dodge;
+    }
+    .title-description {
+        display: none;
+        margin-left: var(--space-16);
+        font-weight: 400;
+        opacity: 0.8;
+    }
+
+    /* === 展示容器 === */
+    .display-container {
+        flex: 1;
+        position: relative;
+        left: -5vw;
+        width: calc(100% + 10vw);
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-32);
+        /* padding-bottom: var(--space-40); */
+    }
+
+    .project-row {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: var(--space-4);
+        width: 100%;
+    }
+
+    .row-label {
+        padding: var(--space-4) var(--space-12);
+        letter-spacing: 0.05em;
+        text-align: center;
+        background-color: color-mix(in oklab, var(--color-blue) 40%, transparent);
+        border-radius: 1000px;
+        border: 1px solid var(--color-blue);
+    }
+
+    /* === 核心网格布局 === */
+    .gallery-grid {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center; /* 关键：居中对齐，实现少图片自动居中 */
+        gap: var(--space-16);
+        width: 100%;
+        padding: var(--space-8);
+    }
+
+    .gallery {
+        /* 
+           核心逻辑：
+           PC端 (1440px+): 每行 8 个 -> flex-basis: calc(12.5% - gap)
+           Laptop (1024px+): 每行 6 个
+           Tablet (768px+): 每行 4 个
+           Mobile: 每行 2 个
+        */
+        flex: 0 0 calc(50% - var(--space-16)); /* Mobile: 2列 */
+
+        position: relative;
+        border-radius: 12px;
+        overflow: hidden;
+        transition:
+            transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+            box-shadow 0.4s ease;
+
+        box-shadow: var(--shadow-m);
+
+        /* 保持手机比例 */
+        aspect-ratio: 375 / 812;
+    }
+
+    .gallery:hover {
+        transform: translateY(-8px);
+        box-shadow: var(--shadow-l);
+        z-index: 10;
+        box-shadow: 0px 8px 24px 8px color-mix(in oklab, var(--color-blue) 40%, transparent);
+    }
+
+    .phone-mockup {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    .gallery:nth-child(1) {
+        order: 7;
+    }
+    .gallery:nth-child(2) {
+        order: 5;
+    }
+    .gallery:nth-child(3) {
+        order: 3;
+    }
+    .gallery:nth-child(4) {
+        order: 1;
+    }
+    .gallery:nth-child(5) {
+        order: 2;
+    }
+    .gallery:nth-child(6) {
+        order: 4;
+    }
+    .gallery:nth-child(7) {
+        order: 6;
+    }
+    .gallery:nth-child(8) {
+        order: 8;
+    }
+
+    /* === 响应式断点控制 === */
+
+    @media (min-width: 480px) {
+        .gallery {
+            flex: 0 0 calc(33.33% - var(--space-16)); /* 小平板: 3列 */
+        }
+
+        .gallery:nth-child(1) {
+            order: 7;
+        }
+        .gallery:nth-child(2) {
+            order: 5;
+        }
+        .gallery:nth-child(3) {
+            order: 1;
+        }
+        .gallery:nth-child(4) {
+            order: 2;
+        }
+        .gallery:nth-child(5) {
+            order: 3;
+        }
+        .gallery:nth-child(6) {
+            order: 4;
+        }
+        .gallery:nth-child(7) {
+            order: 6;
+        }
+        .gallery:nth-child(8) {
+            order: 8;
+        }
+    }
+
+    @media (min-width: 768px) {
+        .gallery {
+            flex: 0 0 calc(25% - var(--space-16)); /* 平板: 4列 */
+        }
+        .gallery-grid {
+            gap: var(--space-24);
+            /* padding: 0 var(--space-32); */
+        }
+        .gallery {
+            flex: 0 0 calc(25% - var(--space-24)); /* 修正 gap 后的宽度 */
+        }
+        .gallery:nth-child(1) {
+            order: 7;
+        }
+        .gallery:nth-child(2) {
+            order: 5;
+        }
+        .gallery:nth-child(3) {
+            order: 1;
+        }
+        .gallery:nth-child(4) {
+            order: 2;
+        }
+        .gallery:nth-child(5) {
+            order: 3;
+        }
+        .gallery:nth-child(6) {
+            order: 4;
+        }
+        .gallery:nth-child(7) {
+            order: 6;
+        }
+        .gallery:nth-child(8) {
+            order: 8;
+        }
+    }
+
+    @media (min-width: 1024px) {
+        .header {
+            margin-bottom: 0;
+        }
+        .gallery {
+            flex: 0 0 calc(16.66% - var(--space-24)); /* 桌面: 6列 */
+        }
+        .gallery:nth-child(1) {
+            order: 7;
+        }
+        .gallery:nth-child(2) {
+            order: 1;
+        }
+        .gallery:nth-child(3) {
+            order: 2;
+        }
+        .gallery:nth-child(4) {
+            order: 3;
+        }
+        .gallery:nth-child(5) {
+            order: 4;
+        }
+        .gallery:nth-child(6) {
+            order: 5;
+        }
+        .gallery:nth-child(7) {
+            order: 6;
+        }
+        .gallery:nth-child(8) {
+            order: 8;
+        }
+        .project-row {
+            margin: 0 -5vw;
+            /* padding: 0 var(--space-16); */
+
+            /* 边缘渐隐效果 */
+            mask-image: linear-gradient(
+                to right,
+                rgba(255, 255, 255, 0.2),
+                white 20%,
+                white 80%,
+                rgba(255, 255, 255, 0.2)
+            );
+
+            left: -5vw;
+            width: calc(100% + 10vw);
+        }
+    }
+
+    @media (min-width: 1440px) {
+        .gallery {
+            flex: 0 0 calc(12.5% - var(--space-24)); /* 大屏: 8列 */
+        }
+        .gallery:nth-child(1) {
+            order: 10;
+        }
+        .gallery:nth-child(2) {
+            order: 10;
+        }
+        .gallery:nth-child(3) {
+            order: 10;
+        }
+        .gallery:nth-child(4) {
+            order: 10;
+        }
+        .gallery:nth-child(5) {
+            order: 10;
+        }
+        .gallery:nth-child(6) {
+            order: 10;
+        }
+        .gallery:nth-child(7) {
+            order: 10;
+        }
+        .gallery:nth-child(8) {
+            order: 10;
+        }
+        .display-container {
+            gap: var(--space-16);
+        }
+    }
+</style>
