@@ -4,7 +4,7 @@
 
 
 :root {
-    font-size: 16px;
+    font-size: 20px;
     font-weight: 400;
     /* 或 100% 或 62.5%（10px） */
     /* --color-50: color-mix(in oklch, var(--primary) 10%, white);
@@ -375,6 +375,15 @@ section {
 
 
 /* 平板 */
+@media (max-width: 1440px) {
+    :root {
+        font-size: 16px;
+    }
+
+    /* section {
+        padding: 4% 5%;
+    } */
+}
 @media (max-width: 1024px) {
     :root {
         font-size: 15px;
